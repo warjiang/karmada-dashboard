@@ -1,0 +1,1 @@
+module warjiang/karmada-dashboard/demos
