@@ -1,0 +1,7 @@
+go 1.21.8
+
+use (
+	./api
+	./web
+	common/helpers
+)
