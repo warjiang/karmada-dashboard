@@ -2,6 +2,13 @@ go 1.21.8
 
 use (
 	./api
+	./auth
+
+	./common/client
+	./common/csrf
+	./common/errors
+	./common/helpers
+	./common/types
+	./demos
 	./web
-	common/helpers
 )
