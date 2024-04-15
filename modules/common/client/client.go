@@ -17,8 +17,31 @@ package client
 import (
 	"fmt"
 	karmadaclientset "github.com/karmada-io/karmada/pkg/generated/clientset/versioned"
+	"k8s.io/klog/v2"
 	"net/http"
+	"os"
 )
+
+func InClusterClient() karmadaclientset.Interface {
+	if !isInitialized() {
+		return nil
+	}
+
+	if inClusterClient != nil {
+		return inClusterClient
+	}
+
+	// init on-demand only
+	c, err := karmadaclientset.NewForConfig(baseConfig)
+	if err != nil {
+		klog.ErrorS(err, "Could not init kubernetes in-cluster client")
+		os.Exit(1)
+	}
+
+	// initialize in-memory client
+	inClusterClient = c
+	return inClusterClient
+}
 
 func Client(request *http.Request) (karmadaclientset.Interface, error) {
 	if !isInitialized() {
