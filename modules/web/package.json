@@ -10,13 +10,13 @@
     "preview": "vite preview"
   },
   "dependencies": {
-    "@ant-design/icons": "^5.3.6",
     "antd": "^5.16.1",
     "clsx": "^2.1.0",
     "i18next": "^23.11.1",
     "i18next-browser-languagedetector": "^7.2.1",
     "i18next-http-backend": "^2.5.0",
     "lodash": "^4.17.21",
+    "lucide-react": "^0.368.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-i18next": "^14.1.0",

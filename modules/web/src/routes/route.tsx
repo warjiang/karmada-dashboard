@@ -1,7 +1,6 @@
 import React, {ReactNode} from 'react'
 import {NonIndexRouteObject, redirect} from "react-router-dom";
 import type {MenuProps} from 'antd';
-import {AppstoreOutlined, MailOutlined, SettingOutlined} from '@ant-design/icons';
 import _ from 'lodash';
 import {MainLayout} from "@/layout";
 import ErrorBoundary from "@/components/error";
@@ -15,6 +14,7 @@ import {Failover, Permission, Reschedule} from '@/pages/advanced-config'
 import {BuildInAddon, ThridPartyAddon} from '@/pages/addon'
 import ClusterManage from '@/pages/cluster-manage';
 import Login from "@/pages/login";
+import {Icons} from '@/components/icons'
 
 
 export interface IRouteObjectHandle {
@@ -36,6 +36,10 @@ export interface FlattenRouteObject extends IRouteObjectHandle {
 const redirectToHomepage = () => {
     return redirect("/overview");
 };
+const IconStyles = {
+    width: 20,
+    height: 20
+}
 export const routes: RouteObject[] = [
     {
         path: "/",
@@ -52,7 +56,7 @@ export const routes: RouteObject[] = [
                 handle: {
                     sidebarKey: 'OVERVIEW',
                     sidebarName: '概览',
-                    icon: <MailOutlined/>
+                    icon: <Icons.overview {...IconStyles}/>
                 }
             },
             {
@@ -60,7 +64,7 @@ export const routes: RouteObject[] = [
                 handle: {
                     sidebarKey: 'MULTICLOUD-RESOURCE-MANAGE',
                     sidebarName: '多云资源管理',
-                    icon: <AppstoreOutlined/>
+                    icon: <Icons.resource  {...IconStyles}/>
                 },
                 children: [
                     {
@@ -102,7 +106,7 @@ export const routes: RouteObject[] = [
                 handle: {
                     sidebarKey: 'MULTICLOUD-POLICY-MANAGE',
                     sidebarName: '策略管理',
-                    icon: <AppstoreOutlined/>
+                    icon: <Icons.policy {...IconStyles}/>
                 },
                 children: [
                     {
@@ -129,7 +133,7 @@ export const routes: RouteObject[] = [
                 handle: {
                     sidebarKey: 'CLUSTER-MANAGE',
                     sidebarName: '集群管理',
-                    icon: <AppstoreOutlined/>
+                    icon: <Icons.clusters {...IconStyles}/>
                 },
             },
             {
@@ -137,7 +141,7 @@ export const routes: RouteObject[] = [
                 handle: {
                     sidebarKey: 'BASIC-CONFIG',
                     sidebarName: '基本配置',
-                    icon: <AppstoreOutlined/>
+                    icon: <Icons.basicConfig  {...IconStyles} />
                 },
                 children: [
                     {
@@ -187,7 +191,7 @@ export const routes: RouteObject[] = [
                 handle: {
                     sidebarKey: 'ADVANCED-CONFIG',
                     sidebarName: '高级配置',
-                    icon: <SettingOutlined/>
+                    icon: <Icons.advancedConfig  {...IconStyles} />
                 },
                 children: [
                     {
@@ -221,7 +225,7 @@ export const routes: RouteObject[] = [
                 handle: {
                     sidebarKey: 'ADDON',
                     sidebarName: '扩展管理',
-                    icon: <SettingOutlined/>
+                    icon: <Icons.addon   {...IconStyles}/>
                 },
                 children: [
                     {
@@ -254,8 +258,9 @@ export const routes: RouteObject[] = [
 export let flattenRoutes: Record<string, string> = {}
 
 function concatPathSegment(paths: string[] = []) {
-    return paths.map(p => p.startsWith("/") ?p : `/${p}`).join("")
+    return paths.map(p => p.startsWith("/") ? p : `/${p}`).join("")
 }
+
 export function tranverseRoutes(route: RouteObject, paths: string[] = []) {
     if (_.isUndefined(route) || _.isUndefined(route.handle)) return
     const {path = ''} = route
@@ -288,7 +293,7 @@ function getItem(
     } as MenuItem;
 }
 
-function convertRouteToMenuItem(route: RouteObject, keypaths:string[] = []): MenuItem | null {
+function convertRouteToMenuItem(route: RouteObject, keypaths: string[] = []): MenuItem | null {
     if (_.isUndefined(route.handle)) return null
     const {sidebarName, sidebarKey, icon} = route.handle
     const newKeyPaths = [...keypaths, sidebarKey]
