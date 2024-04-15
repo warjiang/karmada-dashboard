@@ -11,8 +11,8 @@ const {Sider: AntdSider, Content: AntdContent} = AntdLayout;
 export const MainLayout: FC = () => {
     return <>
         <Header/>
-        <AntdLayout>
-            <AntdSider>
+        <AntdLayout className={cn('h-[calc(100vh-48px)]')}>
+            <AntdSider width={256}>
                 <Sidebar/>
             </AntdSider>
             <AntdContent>

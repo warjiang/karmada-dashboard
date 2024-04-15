@@ -1,37 +1,9 @@
-import {createBrowserRouter, redirect, RouterProvider} from "react-router-dom";
-import {MainLayout} from '@/layout'
-import ErrorBoundary from '@/components/error'
-import Overview from '@/pages/overview'
-import Login from '@/pages/login';
+import {createBrowserRouter, RouterProvider} from "react-router-dom";
 
-const redirectToHomepage = () => {
-    return redirect("/overview");
-};
+import {routes} from './route.tsx'
 
-const router = createBrowserRouter([
-        {
-            path: "/",
-            element: <MainLayout/>,
-            errorElement: <ErrorBoundary/>,
-            children: [
-                {
-                    path: "/",
-                    loader: redirectToHomepage,
-                },
-                {
-                    path: "/overview",
-                    element: <Overview/>,
-                }
-            ],
-        },
-        {
-            path: "/login",
-            errorElement: <ErrorBoundary/>,
-            element: <Login/>
-        }
-    ],
-);
 
+const router = createBrowserRouter(routes);
 export default function Router() {
     return <RouterProvider router={router}/>;
 }
