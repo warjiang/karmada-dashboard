@@ -16,6 +16,7 @@ package client
 
 import (
 	karmadaclientset "github.com/karmada-io/karmada/pkg/generated/clientset/versioned"
+	"github.com/karmada-io/karmada/pkg/karmadactl/util/apiclient"
 	"k8s.io/client-go/rest"
 	"k8s.io/client-go/tools/clientcmd"
 	"k8s.io/client-go/tools/clientcmd/api"
@@ -27,8 +28,10 @@ import (
 )
 
 var (
-	inClusterClient karmadaclientset.Interface
-	baseConfig      *rest.Config
+	inClusterClient        karmadaclientset.Interface
+	baseConfig             *rest.Config
+	inClusterKarmadaClient karmadaclientset.Interface
+	karmadaBaseConfig      *rest.Config
 )
 
 func buildConfigFromAuthInfo(authInfo *api.AuthInfo) (*rest.Config, error) {
@@ -119,7 +122,14 @@ func isInitialized() bool {
 		klog.Errorf(`k8s.io/dasboard/client' package has not been initialized properly. Run 'client.Init(...)' to initialize it. `)
 		return false
 	}
+	return true
+}
 
+func isKarmdaInitialized() bool {
+	if karmadaBaseConfig == nil {
+		klog.Errorf(`k8s.io/dasboard/client' package has not been initialized properly. Run 'client.Init(...)' to initialize it. `)
+		return false
+	}
 	return true
 }
 
@@ -194,6 +204,65 @@ func WithInsecureTLSSkipVerify(insecure bool) Option {
 	}
 }
 
+type karmadaConfigBuilder struct {
+	userAgent      string
+	kubeconfigPath string
+	context        string
+	insecure       bool
+}
+
+func WithKarmadaUserAgent(agent string) KarmadaOption {
+	return func(c *karmadaConfigBuilder) {
+		c.userAgent = agent
+	}
+}
+
+func WithKarmadaKubeconfig(path string) KarmadaOption {
+	return func(c *karmadaConfigBuilder) {
+		c.kubeconfigPath = path
+	}
+}
+
+func WithKarmadaInsecureTLSSkipVerify(insecure bool) KarmadaOption {
+	return func(c *karmadaConfigBuilder) {
+		c.insecure = insecure
+	}
+}
+
+func WithKarmadaContext(context string) KarmadaOption {
+	return func(c *karmadaConfigBuilder) {
+		c.context = context
+	}
+}
+
+func (in *karmadaConfigBuilder) buildKarmadaBaseConfig() (*rest.Config, error) {
+	if len(in.kubeconfigPath) > 0 {
+		klog.InfoS("Using kubeconfig", "kubeconfig", in.kubeconfigPath)
+	}
+	config, err := apiclient.RestConfig(in.context, in.kubeconfigPath)
+	if err != nil {
+		return nil, err
+	}
+	config.QPS = DefaultQPS
+	config.Burst = DefaultBurst
+	//config.ContentType = DefaultContentType
+	config.UserAgent = DefaultUserAgent + "/" + in.userAgent
+	config.TLSClientConfig.Insecure = in.insecure
+	return config, nil
+}
+
+type KarmadaOption func(*karmadaConfigBuilder)
+
+func newKarmadaConfigBuilder(options ...KarmadaOption) *karmadaConfigBuilder {
+	builder := &karmadaConfigBuilder{}
+
+	for _, opt := range options {
+		opt(builder)
+	}
+
+	return builder
+}
+
 func Init(options ...Option) {
 	builder := newConfigBuilder(options...)
 
@@ -204,4 +273,15 @@ func Init(options ...Option) {
 	}
 
 	baseConfig = config
+
+}
+
+func InitKarmada(options ...KarmadaOption) {
+	builder := newKarmadaConfigBuilder(options...)
+	karmadaConfig, err := builder.buildKarmadaBaseConfig()
+	if err != nil {
+		klog.Errorf("Could not init kubernetes client config: %s", err)
+		os.Exit(1)
+	}
+	karmadaBaseConfig = karmadaConfig
 }

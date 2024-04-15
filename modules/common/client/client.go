@@ -37,7 +37,6 @@ func InClusterClient() karmadaclientset.Interface {
 		klog.ErrorS(err, "Could not init kubernetes in-cluster client")
 		os.Exit(1)
 	}
-
 	// initialize in-memory client
 	inClusterClient = c
 	return inClusterClient
@@ -48,4 +47,22 @@ func Client(request *http.Request) (karmadaclientset.Interface, error) {
 		return nil, fmt.Errorf("client package not initialized")
 	}
 	return clientFromRequest(request)
+}
+
+func InClusterKarmadaClient() karmadaclientset.Interface {
+	if !isKarmdaInitialized() {
+		return nil
+	}
+	if inClusterKarmadaClient != nil {
+		return inClusterKarmadaClient
+	}
+	// init on-demand only
+	c, err := karmadaclientset.NewForConfig(karmadaBaseConfig)
+	if err != nil {
+		klog.ErrorS(err, "Could not init kubernetes in-cluster client")
+		os.Exit(1)
+	}
+	// initialize in-memory client
+	inClusterKarmadaClient = c
+	return inClusterKarmadaClient
 }
