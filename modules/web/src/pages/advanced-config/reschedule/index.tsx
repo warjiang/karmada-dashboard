@@ -1,9 +1,10 @@
-const UpgradePage = () => {
-    return <>
+import Panel from '@/components/panel';
+const ReschedulePage = () => {
+    return <Panel>
         <h1 className="text-3xl font-bold underline">
-            this is UpgradePage
+            this is ReschedulePage
         </h1>
-    </>
+    </Panel>
 }
 
-export default UpgradePage;
+export default ReschedulePage;

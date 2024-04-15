@@ -1,10 +1,10 @@
+import Panel from '@/components/panel'
 const ConfigPage = () => {
-    console.log('this is overview')
-    return <>
+    return <Panel>
         <h1 className="text-3xl font-bold underline">
             this is ConfigPage
         </h1>
-    </>
+    </Panel>
 }
 
 export default ConfigPage;

@@ -1,9 +1,10 @@
-const UpgradePage = () => {
-    return <>
+import Panel from '@/components/panel';
+const HelmPage = () => {
+    return <Panel>
         <h1 className="text-3xl font-bold underline">
-            this is UpgradePage
+            this is HelmPage
         </h1>
-    </>
+    </Panel>
 }
 
-export default UpgradePage;
+export default HelmPage;

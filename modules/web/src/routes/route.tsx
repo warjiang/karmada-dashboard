@@ -21,6 +21,7 @@ export interface IRouteObjectHandle {
     icon?: ReactNode
     sidebarKey: string;
     sidebarName: string;
+    isPage?: boolean;
 }
 
 export interface RouteObject extends NonIndexRouteObject {
@@ -64,6 +65,7 @@ export const routes: RouteObject[] = [
                 handle: {
                     sidebarKey: 'MULTICLOUD-RESOURCE-MANAGE',
                     sidebarName: '多云资源管理',
+                    isPage: false,
                     icon: <Icons.resource  {...IconStyles}/>
                 },
                 children: [
@@ -106,7 +108,8 @@ export const routes: RouteObject[] = [
                 handle: {
                     sidebarKey: 'MULTICLOUD-POLICY-MANAGE',
                     sidebarName: '策略管理',
-                    icon: <Icons.policy {...IconStyles}/>
+                    icon: <Icons.policy {...IconStyles}/>,
+                    isPage: false,
                 },
                 children: [
                     {
@@ -133,7 +136,8 @@ export const routes: RouteObject[] = [
                 handle: {
                     sidebarKey: 'CLUSTER-MANAGE',
                     sidebarName: '集群管理',
-                    icon: <Icons.clusters {...IconStyles}/>
+                    icon: <Icons.clusters {...IconStyles}/>,
+                    isPage: false,
                 },
             },
             {
@@ -141,7 +145,8 @@ export const routes: RouteObject[] = [
                 handle: {
                     sidebarKey: 'BASIC-CONFIG',
                     sidebarName: '基本配置',
-                    icon: <Icons.basicConfig  {...IconStyles} />
+                    icon: <Icons.basicConfig  {...IconStyles} />,
+                    isPage: false,
                 },
                 children: [
                     {
@@ -191,7 +196,8 @@ export const routes: RouteObject[] = [
                 handle: {
                     sidebarKey: 'ADVANCED-CONFIG',
                     sidebarName: '高级配置',
-                    icon: <Icons.advancedConfig  {...IconStyles} />
+                    icon: <Icons.advancedConfig  {...IconStyles} />,
+                    isPage: false,
                 },
                 children: [
                     {
@@ -225,7 +231,8 @@ export const routes: RouteObject[] = [
                 handle: {
                     sidebarKey: 'ADDON',
                     sidebarName: '扩展管理',
-                    icon: <Icons.addon   {...IconStyles}/>
+                    icon: <Icons.addon   {...IconStyles}/>,
+                    isPage: false,
                 },
                 children: [
                     {
