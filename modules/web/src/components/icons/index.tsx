@@ -33,6 +33,7 @@ import {
     Settings2,
     SlidersHorizontal,
     Blocks,
+    Upload,
 } from "lucide-react"
 
 export type Icon = LucideIcon
@@ -121,12 +122,6 @@ export const Icons = {
     database: Database,
     eyeOff: EyeOff,
     pdf: FileText,
-    upload: PlusCircle
+    upload: PlusCircle,
+    uploadFile: Upload
 }
-//<Boxes />
-// <Target />
-//<FolderKanban />
-//<FileText />
-//<Settings2 />
-//<SlidersHorizontal />
-//<Blocks />
