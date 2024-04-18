@@ -2,9 +2,13 @@ package main
 
 import (
 	"k8s.io/klog/v2"
+	"os"
 	"warjiang/karmada-dashboard/api/pkg/args"
 	"warjiang/karmada-dashboard/api/pkg/environment"
+	"warjiang/karmada-dashboard/api/pkg/router"
 	"warjiang/karmada-dashboard/client"
+
+	_ "warjiang/karmada-dashboard/api/pkg/routes/cluster"
 )
 
 func main() {
@@ -19,6 +23,11 @@ func main() {
 		ensureAPIServerConnectionOrDie()
 	} else {
 		klog.Info("Running in proxy mode. InClusterClient connections will be disabled.")
+	}
+
+	if err := router.Router().Run("127.0.0.1:8000"); err != nil {
+		klog.ErrorS(err, "Router error")
+		os.Exit(1)
 	}
 }
 

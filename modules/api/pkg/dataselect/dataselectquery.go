@@ -93,16 +93,17 @@ var NoFilter = &FilterQuery{
 // DefaultDataSelectWithMetrics downloads first 10 items from page 1 with no sort. Also downloads and includes standard metrics.
 //var DefaultDataSelectWithMetrics = NewDataSelectQuery(DefaultPagination, NoSort, NoFilter, StandardMetrics)
 /*
+
+ */
 // NewDataSelectQuery creates DataSelectQuery object from simpler data select queries.
-func NewDataSelectQuery(paginationQuery *PaginationQuery, sortQuery *SortQuery, filterQuery *FilterQuery, graphQuery *MetricQuery) *DataSelectQuery {
+func NewDataSelectQuery(paginationQuery *PaginationQuery, sortQuery *SortQuery, filterQuery *FilterQuery) *DataSelectQuery {
 	return &DataSelectQuery{
 		PaginationQuery: paginationQuery,
 		SortQuery:       sortQuery,
 		FilterQuery:     filterQuery,
-		MetricQuery:     graphQuery,
 	}
 }
-*/
+
 // NewSortQuery takes raw sort options list and returns SortQuery object. For example:
 // ["a", "parameter1", "d", "parameter2"] - means that the data should be sorted by
 // parameter1 (ascending) and later - for results that return equal under parameter 1 sort - by parameter2 (descending)
