@@ -77,8 +77,11 @@ const ClusterManagePage = () => {
             align: 'center',
             width: 200,
             render: (_, r) => {
-                const {totalNum, readyNum} = r.nodeSummary
-                return <>{readyNum}/{totalNum}</>
+                if (r.nodeSummary) {
+                    const {totalNum, readyNum} = r.nodeSummary
+                    return <>{readyNum}/{totalNum}</>
+                }
+                return '-'
             }
         },
         {
