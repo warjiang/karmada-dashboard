@@ -1,12 +1,17 @@
 package main
 
 import (
+	"crypto/elliptic"
+	"crypto/tls"
 	"k8s.io/klog/v2"
-	"os"
+	"net/http"
+	"warjiang/karmada-dashboard/certificates"
+	"warjiang/karmada-dashboard/certificates/ecdsa"
 	"warjiang/karmada-dashboard/client"
 	"warjiang/karmada-dashboard/dashboard-api/pkg/args"
 	"warjiang/karmada-dashboard/dashboard-api/pkg/environment"
 	"warjiang/karmada-dashboard/dashboard-api/pkg/router"
+
 	// Importing route packages forces route registration
 	_ "warjiang/karmada-dashboard/dashboard-api/pkg/routes/cluster"
 	_ "warjiang/karmada-dashboard/dashboard-api/pkg/routes/csrftoken"
@@ -16,22 +21,65 @@ import (
 
 func main() {
 	klog.InfoS("Starting Karmada Dashboard API", "version", environment.Version)
-	client.Init(
-		client.WithUserAgent(environment.UserAgent()),
-		client.WithKubeconfig(args.KubeconfigPath()),
-		client.WithMasterUrl(args.ApiServerHost()),
-		client.WithInsecureTLSSkipVerify(args.ApiServerSkipTLSVerify()),
-	)
-	if !args.IsProxyEnabled() {
-		ensureAPIServerConnectionOrDie()
-	} else {
-		klog.Info("Running in proxy mode. InClusterClient connections will be disabled.")
+	/*
+		client.Init(
+			client.WithUserAgent(environment.UserAgent()),
+			client.WithKubeconfig(args.KubeconfigPath()),
+			client.WithMasterUrl(args.ApiServerHost()),
+			client.WithInsecureTLSSkipVerify(args.ApiServerSkipTLSVerify()),
+		if !args.IsProxyEnabled() {
+			ensureAPIServerConnectionOrDie()
+		} else {
+			klog.Info("Running in proxy mode. InClusterClient connections will be disabled.")
+		}
+	*/
+
+	certCreator := ecdsa.NewECDSACreator(args.KeyFile(), args.CertFile(), elliptic.P256())
+	certManager := certificates.NewCertManager(certCreator, args.DefaultCertDir(), args.AutogenerateCertificates())
+	certs, err := certManager.GetCertificates()
+	if err != nil {
+
 	}
 
-	if err := router.Router().Run("127.0.0.1:8000"); err != nil {
-		klog.ErrorS(err, "Router error")
-		os.Exit(1)
+	if args.IsOpenAPIEnabled() {
+		// TODO: config swagger handler
+		klog.Info("Enabling OpenAPI endpoint on /apidocs.json")
 	}
+
+	if err != nil {
+
+	}
+
+	if certs != nil {
+		serveTLS(certs)
+	} else {
+		serve()
+	}
+
+	select {}
+}
+
+func serve() {
+	klog.V(1).InfoS("Listening and serving on", "address", args.InsecureAddress())
+	go func() {
+		klog.Fatal(router.Router().Run(args.InsecureAddress()))
+	}()
+}
+
+func serveTLS(certificates []tls.Certificate) {
+	klog.V(1).InfoS("Listening and serving on", "address", args.Address())
+	r := router.Router()
+	// Run gin with custom TLSConfig: https://github.com/gin-gonic/gin/issues/1099
+	tlsConfig := &tls.Config{
+		Certificates: certificates,
+		MinVersion:   tls.VersionTLS12,
+	}
+	server := &http.Server{
+		Addr:      args.Address(),
+		Handler:   r,
+		TLSConfig: tlsConfig,
+	}
+	go func() { klog.Fatal(server.ListenAndServeTLS("", "")) }()
 }
 
 func ensureAPIServerConnectionOrDie() {
