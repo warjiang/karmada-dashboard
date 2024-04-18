@@ -12,24 +12,28 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package environment
+package login
 
 import (
-	"fmt"
+	"net/http"
+
+	"github.com/gin-gonic/gin"
+	"k8s.io/klog/v2"
+
+	"warjiang/karmada-dashboard/dashboard-api/pkg/router"
 )
 
-const (
-	userAgent = "dashboard-auth"
-	dev       = "0.0.0-dev"
-)
-
-// Version of this binary
-var Version = dev
-
-func IsDev() bool {
-	return Version == dev
+func init() {
+	router.V1().GET("/me", handleMe)
 }
 
-func UserAgent() string {
-	return fmt.Sprintf("%s:%s", userAgent, Version)
+func handleMe(c *gin.Context) {
+	response, code, err := me(c.Request)
+	if err != nil {
+		klog.ErrorS(err, "Could not get user")
+		c.JSON(code, err)
+		return
+	}
+
+	c.JSON(http.StatusOK, response)
 }

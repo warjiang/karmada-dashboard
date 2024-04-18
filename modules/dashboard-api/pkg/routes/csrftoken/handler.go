@@ -12,37 +12,23 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package router
+package login
 
 import (
-	"github.com/gin-gonic/gin"
-	"warjiang/karmada-dashboard/auth/pkg/environment"
+	"net/http"
 	"warjiang/karmada-dashboard/csrf"
-	"warjiang/karmada-dashboard/helpers"
-)
+	"warjiang/karmada-dashboard/dashboard-api/pkg/router"
 
-var (
-	router *gin.Engine
-	v1     *gin.RouterGroup
+	"github.com/gin-gonic/gin"
+	"golang.org/x/net/xsrftoken"
 )
 
 func init() {
-	if !environment.IsDev() {
-		gin.SetMode(gin.ReleaseMode)
-	}
-
-	router = gin.Default()
-	_ = router.SetTrustedProxies(nil)
-	v1 = router.Group("/api/v1")
-	v1.Use(csrf.Gin().CSRF(
-		csrf.Gin().WithCSRFActionGetter(helpers.GetResourceFromPath)),
-	)
+	router.V1().GET("/csrftoken/:action", handleCSRFAction)
 }
 
-func V1() *gin.RouterGroup {
-	return v1
-}
-
-func Router() *gin.Engine {
-	return router
+func handleCSRFAction(c *gin.Context) {
+	action := c.Param("action")
+	token := xsrftoken.Generate(csrf.Key(), "none", action)
+	c.JSON(http.StatusOK, csrf.Response{Token: token})
 }

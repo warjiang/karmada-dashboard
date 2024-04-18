@@ -1,8 +1,6 @@
 go 1.21.8
 
 use (
-	./auth
-
 	./common/client
 	./common/csrf
 	./common/errors

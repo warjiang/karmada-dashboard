@@ -9,6 +9,9 @@ import (
 	"warjiang/karmada-dashboard/dashboard-api/pkg/router"
 	// Importing route packages forces route registration
 	_ "warjiang/karmada-dashboard/dashboard-api/pkg/routes/cluster"
+	_ "warjiang/karmada-dashboard/dashboard-api/pkg/routes/csrftoken"
+	_ "warjiang/karmada-dashboard/dashboard-api/pkg/routes/login"
+	_ "warjiang/karmada-dashboard/dashboard-api/pkg/routes/me"
 )
 
 func main() {

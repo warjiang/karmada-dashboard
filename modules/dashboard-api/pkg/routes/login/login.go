@@ -17,8 +17,8 @@ package login
 import (
 	"net/http"
 
-	v1 "warjiang/karmada-dashboard/auth/api/v1"
 	"warjiang/karmada-dashboard/client"
+	v1 "warjiang/karmada-dashboard/dashboard-api/api/v1"
 	"warjiang/karmada-dashboard/errors"
 )
 

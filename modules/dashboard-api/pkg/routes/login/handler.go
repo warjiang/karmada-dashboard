@@ -16,19 +16,33 @@ package login
 
 import (
 	"net/http"
-	"warjiang/karmada-dashboard/auth/pkg/router"
-	"warjiang/karmada-dashboard/csrf"
 
 	"github.com/gin-gonic/gin"
-	"golang.org/x/net/xsrftoken"
+	"k8s.io/klog/v2"
+
+	v1 "warjiang/karmada-dashboard/dashboard-api/api/v1"
+	"warjiang/karmada-dashboard/dashboard-api/pkg/router"
 )
 
 func init() {
-	router.V1().GET("/csrftoken/:action", handleCSRFAction)
+	router.V1().POST("/login", handleLogin)
 }
 
-func handleCSRFAction(c *gin.Context) {
-	action := c.Param("action")
-	token := xsrftoken.Generate(csrf.Key(), "none", action)
-	c.JSON(http.StatusOK, csrf.Response{Token: token})
+func handleLogin(c *gin.Context) {
+	loginRequest := new(v1.LoginRequest)
+	err := c.Bind(loginRequest)
+	if err != nil {
+		klog.ErrorS(err, "Could not read login request")
+		c.JSON(http.StatusBadRequest, err)
+		return
+	}
+
+	response, code, err := login(loginRequest, c.Request)
+	if err != nil {
+		klog.ErrorS(err, "Could not log in")
+		c.JSON(code, err)
+		return
+	}
+
+	c.JSON(code, response)
 }
