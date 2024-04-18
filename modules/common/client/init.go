@@ -15,6 +15,7 @@
 package client
 
 import (
+	"fmt"
 	karmadaclientset "github.com/karmada-io/karmada/pkg/generated/clientset/versioned"
 	"github.com/karmada-io/karmada/pkg/karmadactl/util/apiclient"
 	"k8s.io/client-go/rest"
@@ -32,6 +33,8 @@ var (
 	baseConfig             *rest.Config
 	inClusterKarmadaClient karmadaclientset.Interface
 	karmadaBaseConfig      *rest.Config
+
+	baseApiConfig *api.Config
 )
 
 func buildConfigFromAuthInfo(authInfo *api.AuthInfo) (*rest.Config, error) {
@@ -274,6 +277,12 @@ func Init(options ...Option) {
 
 	baseConfig = config
 
+	baseApiConfig, err = GenerateAPIConfigFromKubeconfigFile(builder.kubeconfigPath)
+	if err != nil {
+		klog.Errorf("Could not init kubernetes client config: %s", err)
+		os.Exit(1)
+	}
+
 }
 
 func InitKarmada(options ...KarmadaOption) {
@@ -284,4 +293,48 @@ func InitKarmada(options ...KarmadaOption) {
 		os.Exit(1)
 	}
 	karmadaBaseConfig = karmadaConfig
+}
+
+func GetBaseConfig() (*rest.Config, error) {
+	if !isInitialized() {
+		return nil, fmt.Errorf("client package not initialized")
+	}
+	return baseConfig, nil
+}
+
+func GetBaseApiConfig() (*api.Config, error) {
+	if !isInitialized() {
+		return nil, fmt.Errorf("client package not initialized")
+	}
+	return baseApiConfig, nil
+}
+
+func GenerateAPIConfigFromKubeconfigFile(kubeconfigPath string) (*api.Config, error) {
+	// 使用 clientcmd 从 kubeconfig 文件加载配置
+	config, err := clientcmd.LoadFromFile(kubeconfigPath)
+	if err != nil {
+		return nil, err
+	}
+	currentContext := config.CurrentContext
+	context := config.Contexts[currentContext]
+	clusterName := context.Cluster
+	authInfoName := context.AuthInfo
+	cluster := config.Clusters[clusterName]
+	authInfo := config.AuthInfos[authInfoName]
+	apiConfig := &api.Config{
+		Clusters: map[string]*api.Cluster{
+			clusterName: cluster,
+		},
+		AuthInfos: map[string]*api.AuthInfo{
+			authInfoName: authInfo,
+		},
+		Contexts: map[string]*api.Context{
+			currentContext: {
+				Cluster:  clusterName,
+				AuthInfo: authInfoName,
+			},
+		},
+		CurrentContext: currentContext,
+	}
+	return apiConfig, nil
 }
