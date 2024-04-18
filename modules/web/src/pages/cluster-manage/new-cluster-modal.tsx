@@ -8,7 +8,7 @@ const NewClusterModal = () => {
     }>()
     return (
         <Modal
-            open={true}
+            open={false}
             title={'新增集群'}
             width={800}
             okText='确定'
