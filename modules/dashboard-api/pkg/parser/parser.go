@@ -4,7 +4,7 @@ import (
 	"github.com/gin-gonic/gin"
 	"strconv"
 	"strings"
-	"warjiang/karmada-dashboard/api/pkg/dataselect"
+	"warjiang/karmada-dashboard/dashboard-api/pkg/dataselect"
 )
 
 func parsePaginationPathParameter(request *gin.Context) *dataselect.PaginationQuery {

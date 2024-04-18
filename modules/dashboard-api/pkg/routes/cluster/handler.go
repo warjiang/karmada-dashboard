@@ -11,12 +11,12 @@ import (
 	"k8s.io/klog/v2"
 	"net/http"
 	"time"
-	commonapi "warjiang/karmada-dashboard/api/api/common"
-	v1 "warjiang/karmada-dashboard/api/api/v1"
-	"warjiang/karmada-dashboard/api/pkg/parser"
-	"warjiang/karmada-dashboard/api/pkg/resource/cluster"
-	"warjiang/karmada-dashboard/api/pkg/router"
 	"warjiang/karmada-dashboard/client"
+	commonapi "warjiang/karmada-dashboard/dashboard-api/api/common"
+	v1 "warjiang/karmada-dashboard/dashboard-api/api/v1"
+	"warjiang/karmada-dashboard/dashboard-api/pkg/parser"
+	"warjiang/karmada-dashboard/dashboard-api/pkg/resource/cluster"
+	"warjiang/karmada-dashboard/dashboard-api/pkg/router"
 )
 
 func handleGetClusterList(c *gin.Context) {

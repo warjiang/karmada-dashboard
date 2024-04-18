@@ -7,7 +7,7 @@ import (
 	v1 "k8s.io/api/core/v1"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"log"
-	"warjiang/karmada-dashboard/api/pkg/dataselect"
+	"warjiang/karmada-dashboard/dashboard-api/pkg/dataselect"
 	"warjiang/karmada-dashboard/errors"
 	"warjiang/karmada-dashboard/helpers"
 	"warjiang/karmada-dashboard/types"

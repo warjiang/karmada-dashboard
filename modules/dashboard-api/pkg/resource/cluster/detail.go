@@ -3,7 +3,7 @@ package cluster
 import (
 	"github.com/karmada-io/karmada/pkg/apis/cluster/v1alpha1"
 	karmadaclientset "github.com/karmada-io/karmada/pkg/generated/clientset/versioned"
-	"warjiang/karmada-dashboard/api/pkg/dataselect"
+	"warjiang/karmada-dashboard/dashboard-api/pkg/dataselect"
 )
 
 type ClusterDetail struct {

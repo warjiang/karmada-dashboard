@@ -18,8 +18,8 @@ import (
 	"github.com/karmada-io/karmada/pkg/apis/cluster/v1alpha1"
 	v1 "k8s.io/api/core/v1"
 
-	"warjiang/karmada-dashboard/api/pkg/dataselect"
-	"warjiang/karmada-dashboard/api/pkg/resource/common"
+	"warjiang/karmada-dashboard/dashboard-api/pkg/dataselect"
+	"warjiang/karmada-dashboard/dashboard-api/pkg/resource/common"
 )
 
 // getContainerImages returns container image strings from the given node.

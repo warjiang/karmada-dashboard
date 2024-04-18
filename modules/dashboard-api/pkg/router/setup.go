@@ -16,7 +16,7 @@ package router
 
 import (
 	"github.com/gin-gonic/gin"
-	"warjiang/karmada-dashboard/api/pkg/environment"
+	"warjiang/karmada-dashboard/dashboard-api/pkg/environment"
 )
 
 var (

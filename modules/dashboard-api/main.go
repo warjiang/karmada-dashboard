@@ -3,16 +3,16 @@ package main
 import (
 	"k8s.io/klog/v2"
 	"os"
-	"warjiang/karmada-dashboard/api/pkg/args"
-	"warjiang/karmada-dashboard/api/pkg/environment"
-	"warjiang/karmada-dashboard/api/pkg/router"
 	"warjiang/karmada-dashboard/client"
-
-	_ "warjiang/karmada-dashboard/api/pkg/routes/cluster"
+	"warjiang/karmada-dashboard/dashboard-api/pkg/args"
+	"warjiang/karmada-dashboard/dashboard-api/pkg/environment"
+	"warjiang/karmada-dashboard/dashboard-api/pkg/router"
+	// Importing route packages forces route registration
+	_ "warjiang/karmada-dashboard/dashboard-api/pkg/routes/cluster"
 )
 
 func main() {
-	klog.InfoS("Starting Kubernetes Dashboard API", "version", environment.Version)
+	klog.InfoS("Starting Karmada Dashboard API", "version", environment.Version)
 	client.Init(
 		client.WithUserAgent(environment.UserAgent()),
 		client.WithKubeconfig(args.KubeconfigPath()),
