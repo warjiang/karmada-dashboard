@@ -4,7 +4,7 @@ go 1.21.8
 
 require (
 	github.com/karmada-io/karmada v1.9.0
-	k8s.io/apimachinery v0.29.2
+	k8s.io/apimachinery v0.28.5
 	k8s.io/client-go v0.28.5
 	k8s.io/klog/v2 v2.120.1
 )
