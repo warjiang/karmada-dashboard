@@ -6,8 +6,10 @@ import (
 	"github.com/joho/godotenv"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	kubeclient "k8s.io/client-go/kubernetes"
+	"k8s.io/client-go/rest"
 	"k8s.io/client-go/tools/clientcmd"
 	clientcmdapi "k8s.io/client-go/tools/clientcmd/api"
+	"k8s.io/klog/v2"
 	"net/url"
 	"os"
 )
@@ -28,12 +30,27 @@ func main() {
 		panic(err)
 	}
 	clusterName := "member3"
+	byApiConifg := false
+	var kubeClient *kubeclient.Clientset
 	memberAPIServer := fmt.Sprintf("%s://%s/apis/cluster.karmada.io/v1alpha1/clusters/%s/proxy", originApiServerURL.Scheme, originApiServerURL.Host, clusterName)
-	apiConfig.Clusters[apiConfig.CurrentContext].Server = memberAPIServer
-	kubeClient, err := ToClientSet(apiConfig)
-	if err != nil {
-		panic(err)
+
+	if byApiConifg {
+
+		apiConfig.Clusters[apiConfig.CurrentContext].Server = memberAPIServer
+		kubeClient, err = ToClientSet(apiConfig)
+		if err != nil {
+			panic(err)
+		}
+	} else {
+		restConfig, err := LoadRestConfig(kubeConfigPath, "")
+		if err != nil {
+			panic(err)
+		}
+		restConfig.Host = memberAPIServer
+		kubeClient, err = kubeclient.NewForConfig(restConfig)
+		fmt.Printf("Host: %s, apiPath:%s", restConfig.Host, restConfig.APIPath)
 	}
+
 	nsList, err := kubeClient.CoreV1().Namespaces().List(context.TODO(), metav1.ListOptions{})
 	if err != nil {
 		panic(err)
@@ -41,6 +58,29 @@ func main() {
 	for _, item := range nsList.Items {
 		fmt.Println(item.Name)
 	}
+}
+func LoadRestConfig(kubeconfig string, context string) (*rest.Config, error) {
+	loader := &clientcmd.ClientConfigLoadingRules{ExplicitPath: kubeconfig}
+	loadedConfig, err := loader.Load()
+	if err != nil {
+		return nil, err
+	}
+
+	if context == "" {
+		context = loadedConfig.CurrentContext
+	}
+	klog.Infof("Use context %v", context)
+
+	d := clientcmd.NewNonInteractiveClientConfig(
+		*loadedConfig,
+		context,
+		&clientcmd.ConfigOverrides{},
+		loader,
+	)
+	// config, err := d.ClientConfig()
+	//rawConfig, err := d.RawConfig()
+	//rawConfig.Clusters[rawConfig.CurrentContext].Server = "https://192.168.10.2:5443/apis/cluster.karmada.io/v1alpha1/clusters/member3/proxy"
+	return d.ClientConfig()
 }
 
 func GenerateAPIConfigFromKubeconfigFile(kubeconfigPath string) (*clientcmdapi.Config, error) {
