@@ -16,12 +16,12 @@ Make sure the following software is installed and added to your path:
 
 ## Getting Started
 
-Clone the repository of [karmada](https://github.com/karmada-io/karmada) outside karmda-dashboard project. Follow the step of [Install the Karmada control plane](https://github.com/karmada-io/karmada?tab=readme-ov-file#install-the-karmada-control-plane)
-When your screen shows 'Local Karmada is running.', it means that the control plane and the clusters already started successfully.
+Clone the repository of [karmada](https://github.com/karmada-io/karmada) outside karmda-dashboard project. Follow the step of [Install the Karmada control plane](https://github.com/karmada-io/karmada?tab=readme-ov-file#install-the-karmada-control-plane),
+when your screen shows Local **Karmada is running**, it means that the control plane and the clusters already started successfully.
 
 
 Cloning the repository, install web dependencies with `cd modules/web && yarn`.
-After that run `yarn dev`, open your browser with 'http://localhost:5173/cluster-manage', you can see some cluster which controlled by karmada control-plane. If everything ok, start your trip of development.
+After that run `yarn dev`, open your browser with `http://localhost:5173/cluster-manage`, you can see a list of clusters which controlled by karmada control-plane. If everything ok, start your trip of development.
 
 
 ## Dependency Management
