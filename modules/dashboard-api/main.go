@@ -28,6 +28,13 @@ func main() {
 		client.WithInsecureTLSSkipVerify(args.SkipKarmadaApiserverTLSVerify()),
 	)
 
+	client.InitKubeConfig(
+		client.WithUserAgent(environment.UserAgent()),
+		client.WithKubeconfig(args.KubeConfigPath()),
+		client.WithKubeContext(args.KubeContext()),
+		client.WithInsecureTLSSkipVerify(args.SkipKubeApiserverTLSVerify()),
+	)
+
 	ensureAPIServerConnectionOrDie()
 
 	certCreator := ecdsa.NewECDSACreator(args.KeyFile(), args.CertFile(), elliptic.P256())
