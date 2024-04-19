@@ -21,18 +21,12 @@ import (
 
 func main() {
 	klog.InfoS("Starting Karmada Dashboard API", "version", environment.Version)
-	/*
-		client.Init(
-			client.WithUserAgent(environment.UserAgent()),
-			client.WithKubeconfig(args.KubeconfigPath()),
-			client.WithMasterUrl(args.ApiServerHost()),
-			client.WithInsecureTLSSkipVerify(args.ApiServerSkipTLSVerify()),
-		if !args.IsProxyEnabled() {
-			ensureAPIServerConnectionOrDie()
-		} else {
-			klog.Info("Running in proxy mode. InClusterClient connections will be disabled.")
-		}
-	*/
+	client.InitKarmadaConfig(
+		client.WithUserAgent(environment.UserAgent()),
+		client.WithKubeconfig(args.KarmadaConfigPath()),
+		client.WithKubeContext(args.KarmadaContext()),
+		client.WithInsecureTLSSkipVerify(args.SkipKarmadaApiserverTLSVerify()),
+	)
 
 	certCreator := ecdsa.NewECDSACreator(args.KeyFile(), args.CertFile(), elliptic.P256())
 	certManager := certificates.NewCertManager(certCreator, args.DefaultCertDir(), args.AutogenerateCertificates())

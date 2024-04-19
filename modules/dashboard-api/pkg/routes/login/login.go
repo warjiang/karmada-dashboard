@@ -25,12 +25,12 @@ import (
 func login(spec *v1.LoginRequest, request *http.Request) (*v1.LoginResponse, int, error) {
 	ensureAuthorizationHeader(spec, request)
 
-	k8sClient, err := client.Client(request)
+	karmadaClient, err := client.KarmadaClient(request)
 	if err != nil {
 		return nil, http.StatusInternalServerError, err
 	}
 
-	if _, err = k8sClient.Discovery().ServerVersion(); err != nil {
+	if _, err = karmadaClient.Discovery().ServerVersion(); err != nil {
 		code, err := errors.HandleError(err)
 		return nil, code, err
 	}

@@ -20,7 +20,7 @@ import (
 )
 
 func handleGetClusterList(c *gin.Context) {
-	karmadaClient, err := client.Client(c.Request)
+	karmadaClient, err := client.KarmadaClient(c.Request)
 	if err != nil {
 		klog.ErrorS(err, "Could not read login request")
 		c.JSON(http.StatusBadRequest, err)
@@ -37,7 +37,7 @@ func handleGetClusterList(c *gin.Context) {
 }
 
 func handleGetClusterDetail(c *gin.Context) {
-	karmadaClient, err := client.Client(c.Request)
+	karmadaClient, err := client.KarmadaClient(c.Request)
 	if err != nil {
 		klog.ErrorS(err, "Could not read login request")
 		c.JSON(http.StatusBadRequest, err)
@@ -56,7 +56,7 @@ func handlePostCluster(c *gin.Context) {
 		commonapi.Fail(c, err)
 		return
 	}
-	karmadaClient, err := client.Client(c.Request)
+	karmadaClient, err := client.KarmadaClient(c.Request)
 	if err != nil {
 		klog.ErrorS(err, "Could not init karmada client based request-token")
 		commonapi.Fail(c, err)
@@ -70,7 +70,7 @@ func handlePostCluster(c *gin.Context) {
 			commonapi.Fail(c, err)
 			return
 		}
-		apiConfig, err := client.GetBaseApiConfig()
+		_, apiConfig, err := client.GetKarmadaConfig()
 		if err != nil {
 			klog.ErrorS(err, "Get api config failed")
 			commonapi.Fail(c, err)
@@ -99,7 +99,7 @@ func handlePostCluster(c *gin.Context) {
 			c.JSON(http.StatusInternalServerError, err)
 			return
 		}
-		restConfig, err := client.GetBaseConfig()
+		restConfig, _, err := client.GetKarmadaConfig()
 		if err != nil {
 			klog.ErrorS(err, "Get rest config failed")
 			c.JSON(http.StatusInternalServerError, err)
@@ -133,7 +133,7 @@ func handleDeleteCluster(c *gin.Context) {
 		return
 	}
 	clusterName := clusterRequest.MemberClusterName
-	karmadaClient, err := client.Client(c.Request)
+	karmadaClient, err := client.KarmadaClient(c.Request)
 	if err != nil {
 		klog.ErrorS(err, "Could not init karmada client based request-token")
 		commonapi.Fail(c, err)

@@ -36,14 +36,14 @@ type ServiceAccount struct {
 }
 
 func me(request *http.Request) (*types.User, int, error) {
-	k8sClient, err := client.Client(request)
+	karmadaClient, err := client.KarmadaClient(request)
 	if err != nil {
 		code, err := errors.HandleError(err)
 		return nil, code, err
 	}
 
 	// Make sure that authorization token is valid
-	if _, err = k8sClient.Discovery().ServerVersion(); err != nil {
+	if _, err = karmadaClient.Discovery().ServerVersion(); err != nil {
 		code, err := errors.HandleError(err)
 		return nil, code, err
 	}
