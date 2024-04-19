@@ -6,6 +6,7 @@ import (
 	"github.com/spf13/pflag"
 	"k8s.io/klog/v2"
 	"net"
+	"warjiang/karmada-dashboard/certificates/api"
 	"warjiang/karmada-dashboard/helpers"
 )
 
@@ -24,6 +25,7 @@ var (
 	argAutoGenerateCertificates = pflag.Bool("auto-generate-certificates", false, "enables automatic certificates generation used to serve HTTPS")
 	argLocaleConfig             = pflag.String("locale-config", "/locale_conf.json", "path to file containing the locale configuration")
 	argKubeconfig               = pflag.String("kubeconfig", "", "Path to kubeconfig file")
+	argKubeContext              = pflag.String("context", "", "The name of the kubeconfig context to use.")
 )
 
 func init() {
@@ -62,23 +64,22 @@ func DefaultCertDir() string {
 	return *argDefaultCertDir
 }
 
-/*
-	func CertFile() string {
-		if len(*argCertFile) == 0 && AutoGenerateCertificates() {
-			return api.DashboardCertName
-		}
-
-		return *argCertFile
+func CertFile() string {
+	if len(*argCertFile) == 0 && AutoGenerateCertificates() {
+		return api.DashboardCertName
 	}
 
-	func KeyFile() string {
-		if len(*argKeyFile) == 0 && AutoGenerateCertificates() {
-			return api.DashboardKeyName
-		}
+	return *argCertFile
+}
 
-		return *argKeyFile
+func KeyFile() string {
+	if len(*argKeyFile) == 0 && AutoGenerateCertificates() {
+		return api.DashboardKeyName
 	}
-*/
+
+	return *argKeyFile
+}
+
 func SettingsConfigMapName() string {
 	return *argSettingsConfigMapName
 }
@@ -109,4 +110,8 @@ func Address() string {
 
 func KubeconfigPath() string {
 	return *argKubeconfig
+}
+
+func KubeContext() string {
+	return *argKubeContext
 }

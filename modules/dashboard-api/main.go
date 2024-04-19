@@ -28,11 +28,13 @@ func main() {
 		client.WithInsecureTLSSkipVerify(args.SkipKarmadaApiserverTLSVerify()),
 	)
 
+	ensureAPIServerConnectionOrDie()
+
 	certCreator := ecdsa.NewECDSACreator(args.KeyFile(), args.CertFile(), elliptic.P256())
 	certManager := certificates.NewCertManager(certCreator, args.DefaultCertDir(), args.AutogenerateCertificates())
 	certs, err := certManager.GetCertificates()
 	if err != nil {
-
+		handleFatalInitServingCertError(err)
 	}
 
 	if args.IsOpenAPIEnabled() {
@@ -41,7 +43,7 @@ func main() {
 	}
 
 	if err != nil {
-
+		handleFatalInitServingCertError(err)
 	}
 
 	if certs != nil {
@@ -91,9 +93,12 @@ func ensureAPIServerConnectionOrDie() {
  */
 func handleFatalInitError(err error) {
 	klog.Fatalf("Error while initializing connection to Kubernetes apiserver. "+
-		"This most likely means that the cluster is misconfigured (e.g., it has "+
-		"invalid apiserver certificates or service account's configuration) or the "+
-		"--apiserver-host param points to a server that does not exist. Reason: %s\n"+
-		"Refer to our FAQ and wiki pages for more information: "+
-		"https://github.com/kubernetes/dashboard/wiki/FAQ", err)
+		"This most likely means that the cluster is misconfigured. Reason: %s\n", err)
+}
+
+/**
+ * Handles fatal init errors encountered during service cert loading.
+ */
+func handleFatalInitServingCertError(err error) {
+	klog.Fatalf("Error while loading dashboard server certificates. Reason: %s", err)
 }
