@@ -6,6 +6,7 @@ import Sidebar from './sidebar';
 import { cn } from '@/utils/cn.ts';
 import { useAuth } from '@/components/auth';
 import { getSidebarWidth } from '@/utils/i18n.tsx';
+import ResizableTtyd from '@/components/resizable-ttyd';
 
 const { Sider: AntdSider, Content: AntdContent } = AntdLayout;
 
@@ -25,6 +26,7 @@ export const MainLayout: FC = () => {
           <Outlet />
         </AntdContent>
       </AntdLayout>
+      <ResizableTtyd />
     </>
   );
 };

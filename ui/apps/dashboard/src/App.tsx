@@ -5,10 +5,14 @@ import { ConfigProvider } from 'antd';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import AuthProvider from '@/components/auth';
 import { getAntdLocale } from '@/utils/i18n.tsx';
+import { containerTerminal } from '@/utils/terminal.ts';
+import { TerminalContext } from '@karmada/terminal';
+import { useToggle } from '@uidotdev/usehooks';
 
 const queryClient = new QueryClient();
 
 function App() {
+  const [showTerminal, toggleShowTerminal] = useToggle(false);
   return (
     <ConfigProvider
       locale={getAntdLocale()}
@@ -21,39 +25,47 @@ function App() {
       }}
     >
       <QueryClientProvider client={queryClient}>
-        <AuthProvider>
-          <HelmetProvider>
-            <Helmet>
-              <title>Karmada Dashboard</title>
-              <link
-                rel="apple-touch-icon"
-                sizes="180x180"
-                href="/apple-touch-icon.png"
-              />
+        <TerminalContext.Provider
+          value={{
+            terminal: containerTerminal,
+            showTerminal,
+            toggleShowTerminal,
+          }}
+        >
+          <AuthProvider>
+            <HelmetProvider>
+              <Helmet>
+                <title>Karmada Dashboard</title>
+                <link
+                  rel="apple-touch-icon"
+                  sizes="180x180"
+                  href="/apple-touch-icon.png"
+                />
 
-              <link
-                rel="icon"
-                type="image/png"
-                sizes="16x16"
-                href="/favicon-16x16.png"
-              />
+                <link
+                  rel="icon"
+                  type="image/png"
+                  sizes="16x16"
+                  href="/favicon-16x16.png"
+                />
 
-              <link
-                rel="icon"
-                type="image/png"
-                sizes="32x32"
-                href="/favicon-32x32.png"
-              />
+                <link
+                  rel="icon"
+                  type="image/png"
+                  sizes="32x32"
+                  href="/favicon-32x32.png"
+                />
 
-              <link
-                rel="shortcut icon"
-                type="image/x-icon"
-                href="/favicon.ico"
-              />
-            </Helmet>
-            <Router />
-          </HelmetProvider>
-        </AuthProvider>
+                <link
+                  rel="shortcut icon"
+                  type="image/x-icon"
+                  href="/favicon.ico"
+                />
+              </Helmet>
+              <Router />
+            </HelmetProvider>
+          </AuthProvider>
+        </TerminalContext.Provider>
       </QueryClientProvider>
     </ConfigProvider>
   );

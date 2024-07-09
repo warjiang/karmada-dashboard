@@ -97,6 +97,13 @@ func GetKarmadaClientFromRequest(request *http.Request) (karmadaclientset.Interf
 	return karmadaClientFromRequest(request)
 }
 
+func GetKarmadaConfigFromRequest(request *http.Request) (*rest.Config, error) {
+	if !isKarmadaInitialized() {
+		return nil, fmt.Errorf("client package not initialized")
+	}
+	return karmadaConfigFromRequest(request)
+}
+
 func karmadaClientFromRequest(request *http.Request) (karmadaclientset.Interface, error) {
 	config, err := karmadaConfigFromRequest(request)
 	if err != nil {

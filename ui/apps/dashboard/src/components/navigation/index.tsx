@@ -1,4 +1,4 @@
-import { FC, CSSProperties } from 'react';
+import { FC, CSSProperties, useContext } from 'react';
 import styles from './index.module.less';
 import karmadaLogo from '@/assets/karmada-logo.svg';
 import {
@@ -9,6 +9,8 @@ import {
   getLangTitle,
 } from '@/utils/i18n';
 import { Dropdown } from 'antd';
+import { Icons } from '@/components/icons';
+import { TerminalContext } from '@karmada/terminal';
 
 export interface IUserInfo {
   id: number;
@@ -30,6 +32,7 @@ const Navigation: FC<INavigationProps> = (props) => {
     brandText = 'Karmada Dashboard',
     userInfo,
   } = props;
+  const { showTerminal, toggleShowTerminal } = useContext(TerminalContext);
   return (
     <>
       <div className={styles.navbar}>
@@ -48,6 +51,16 @@ const Navigation: FC<INavigationProps> = (props) => {
           <div className={styles.right}>
             {/* extra components */}
             <div className={styles.extra}>
+              <div className="mr-[10px] cursor-pointer">
+                <Icons.terminal
+                  width={20}
+                  height={20}
+                  onClick={() => {
+                    console.log('set terminal', !showTerminal);
+                    toggleShowTerminal(!showTerminal);
+                  }}
+                />
+              </div>
               <Dropdown
                 menu={{
                   onClick: async (v) => {

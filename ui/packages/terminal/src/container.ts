@@ -83,8 +83,8 @@ class ContainerTerminal extends BaseTerminal {
     if (this.connected || this.connecting) return;
     this.connecting = true;
     this.connectionClosed = false;
-
-    this.socket = new SockJS(`/api/sockjs?${this.sessionId}`);
+    console.log('execute connect');
+    this.socket = new SockJS(`/api/v1/misc/sockjs?${this.sessionId}`);
     const { socket } = this;
     socket.onopen = this.onConnectionOpen.bind(this, this.sessionId);
     socket.onmessage = this.onConnectionMessage.bind(this);
@@ -130,7 +130,7 @@ class ContainerTerminal extends BaseTerminal {
     this.connectionClosed = true;
   };
 
-  private onTerminalResize(): void {
+  public onTerminalResize(): void {
     if (this.connected) {
       this.socket.send(
         JSON.stringify({

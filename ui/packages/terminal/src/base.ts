@@ -184,6 +184,7 @@ class BaseTerminal implements IDisposable {
     ) as innerTerminal;
     this.terminal = terminal;
     terminal.fit = () => {
+      console.log('execute terminal fit function');
       this.mustGetAddon<FitAddon>('fit').fit();
     };
     for (const name in this.addons) {

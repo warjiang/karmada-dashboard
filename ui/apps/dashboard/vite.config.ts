@@ -22,7 +22,14 @@ export default defineConfig(({ mode }) => {
             // Authorization: `Bearer ${env.VITE_TOKEN}`
           },
         },
+        '^/api/v1/misc/sockjs*': {
+          target: 'ws://localhost:8000',
+          changeOrigin: false,
+          secure: false,
+          ws: true,
+        },
       },
     },
   };
 });
+// /api/v1/misc/sockjs/20

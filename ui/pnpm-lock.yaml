@@ -13,6 +13,9 @@ importers:
 
   .:
     dependencies:
+      '@karmada/terminal':
+        specifier: ^1.0.4
+        version: 1.0.4(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
       dayjs:
         specifier: ^1.11.11
         version: 1.11.11
@@ -44,6 +47,9 @@ importers:
       '@karmada/dashboard':
         specifier: 'link:'
         version: 'link:'
+      '@karmada/terminal':
+        specifier: workspace:*
+        version: link:../../packages/terminal
       '@monaco-editor/react':
         specifier: ^4.6.0
         version: 4.6.0(monaco-editor@0.48.0)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
@@ -58,7 +64,7 @@ importers:
         version: 5.17.3(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
       axios:
         specifier: ^1.6.8
-        version: 1.6.8(debug@4.3.5)
+        version: 1.6.8
       clsx:
         specifier: ^2.1.0
         version: 2.1.1
@@ -77,6 +83,9 @@ importers:
       monaco-yaml:
         specifier: ^5.1.0
         version: 5.1.0(monaco-editor@0.48.0)
+      re-resizable:
+        specifier: ^6.9.17
+        version: 6.9.17(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
       react:
         specifier: ^18.2.0
         version: 18.3.1
@@ -975,6 +984,22 @@ packages:
 
   '@jridgewell/trace-mapping@0.3.25':
     resolution: {integrity: sha512-vNk6aEwybGtawWmy/PzwnGDOjCkLWSD2wqvjGGAgOAwCGWySYXfYoxt00IJkTF+8Lb57DwOb3Aa0o9CApepiYQ==}
+
+  '@karmada/terminal@1.0.4':
+    resolution: {integrity: sha512-QuA2Onisi1DrCsVLGNTImyeYIqbkDdnDXU5ErEx/5GVQeNBEMgh6Qzyb16Fx+MT7g7O0n6vN1ir88OKzXE6zWQ==}
+    peerDependencies:
+      react: ^18
+      react-dom: ^18
+
+  '@karmada/xterm-addon-overlay@1.0.1':
+    resolution: {integrity: sha512-LyrzzNzAW4eQEaGXG6dAY6cKsBKG7MeuDkr0xCGio+i0g/AmNX52VV2BLk10MTjYT57/xw4Z9j+kT6+ASybECA==}
+    peerDependencies:
+      '@xterm/xterm': ^5.0.0
+
+  '@karmada/xterm-addon-zmodem@1.0.1':
+    resolution: {integrity: sha512-GMblSSFJCZaR3lUjDWpF7sxipzngrfm8uWsF2ut/xeDMZ/SVkVxMDigdfTYM1M3PkZjoMigPE/T0YzNKMH3V/Q==}
+    peerDependencies:
+      '@xterm/xterm': ^5.0.0
 
   '@manypkg/find-root@1.1.0':
     resolution: {integrity: sha512-mki5uBvhHzO8kYYix/WRy2WX8S3B5wdVSc9D6KcU5lQNglP2yt58/VfLuAK49glRXChosY8ap2oJ1qgma3GUVA==}
@@ -3283,6 +3308,12 @@ packages:
       react: '>=16.9.0'
       react-dom: '>=16.9.0'
 
+  re-resizable@6.9.17:
+    resolution: {integrity: sha512-OBqd1BwVXpEJJn/yYROG+CbeqIDBWIp6wathlpB0kzZWWZIY1gPTsgK2yJEui5hOvkCdC2mcexF2V3DZVfLq2g==}
+    peerDependencies:
+      react: ^16.13.1 || ^17.0.0 || ^18.0.0
+      react-dom: ^16.13.1 || ^17.0.0 || ^18.0.0
+
   react-dom@18.3.1:
     resolution: {integrity: sha512-5m4nQKp+rZRb09LNH59GM4BxTh9251/ylbKIbpe7TpGxfJ+9kv6BLkLBXIjjspbgbnIBNqlI23tRnTWT0snUIw==}
     peerDependencies:
@@ -4519,6 +4550,39 @@ snapshots:
       '@jridgewell/resolve-uri': 3.1.2
       '@jridgewell/sourcemap-codec': 1.4.15
 
+  '@karmada/terminal@1.0.4(react-dom@18.3.1(react@18.3.1))(react@18.3.1)':
+    dependencies:
+      '@karmada/xterm-addon-overlay': 1.0.1(@xterm/xterm@5.5.0)
+      '@karmada/xterm-addon-zmodem': 1.0.1(@xterm/xterm@5.5.0)
+      '@xterm/addon-canvas': 0.7.0(@xterm/xterm@5.5.0)
+      '@xterm/addon-clipboard': 0.1.0(@xterm/xterm@5.5.0)
+      '@xterm/addon-fit': 0.10.0(@xterm/xterm@5.5.0)
+      '@xterm/addon-ligatures': 0.9.0(@xterm/xterm@5.5.0)
+      '@xterm/addon-search': 0.15.0(@xterm/xterm@5.5.0)
+      '@xterm/addon-unicode11': 0.8.0(@xterm/xterm@5.5.0)
+      '@xterm/addon-web-links': 0.11.0(@xterm/xterm@5.5.0)
+      '@xterm/addon-webgl': 0.18.0(@xterm/xterm@5.5.0)
+      '@xterm/xterm': 5.5.0
+      debug: 4.3.5
+      lodash.isempty: 4.4.0
+      react: 18.3.1
+      react-dom: 18.3.1(react@18.3.1)
+      sockjs-client: 1.6.1
+    transitivePeerDependencies:
+      - supports-color
+
+  '@karmada/xterm-addon-overlay@1.0.1(@xterm/xterm@5.5.0)':
+    dependencies:
+      '@xterm/xterm': 5.5.0
+
+  '@karmada/xterm-addon-zmodem@1.0.1(@xterm/xterm@5.5.0)':
+    dependencies:
+      '@karmada/xterm-addon-zmodem': 'link:'
+      '@xterm/xterm': 5.5.0
+      file-saver: 2.0.5
+      trzsz: 1.1.5
+      zmodem.js: 0.1.10(patch_hash=hu5xjluf4ypxmwfl72cvrgotsq)
+
   '@manypkg/find-root@1.1.0':
     dependencies:
       '@babel/runtime': 7.24.5
@@ -5344,6 +5408,14 @@ snapshots:
     dependencies:
       possible-typed-array-names: 1.0.0
 
+  axios@1.6.8:
+    dependencies:
+      follow-redirects: 1.15.6
+      form-data: 4.0.0
+      proxy-from-env: 1.1.0
+    transitivePeerDependencies:
+      - debug
+
   axios@1.6.8(debug@4.3.5):
     dependencies:
       follow-redirects: 1.15.6(debug@4.3.5)
@@ -5978,6 +6050,8 @@ snapshots:
       rimraf: 3.0.2
 
   flatted@3.3.1: {}
+
+  follow-redirects@1.15.6: {}
 
   follow-redirects@1.15.6(debug@4.3.5):
     optionalDependencies:
@@ -7147,6 +7221,11 @@ snapshots:
       classnames: 2.5.1
       rc-resize-observer: 1.4.0(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
       rc-util: 5.41.0(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
+      react: 18.3.1
+      react-dom: 18.3.1(react@18.3.1)
+
+  re-resizable@6.9.17(react-dom@18.3.1(react@18.3.1))(react@18.3.1):
+    dependencies:
       react: 18.3.1
       react-dom: 18.3.1(react@18.3.1)
 

@@ -236,4 +236,54 @@ export const Icons = {
       />
     </svg>
   ),
+  terminal: ({ ...props }: LucideProps) => (
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      viewBox="0 0 48 48"
+      width="24"
+      height="24"
+      fill="none"
+      {...props}
+    >
+      <rect
+        x="4"
+        y="8"
+        width="40"
+        height="32"
+        rx="2"
+        fill="none"
+        stroke="#333"
+        strokeWidth="4"
+        strokeLinejoin="round"
+      />
+      <path
+        d="M12 18L19 24L12 30"
+        stroke="#333"
+        strokeWidth="4"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+      <path
+        d="M23 32H36"
+        stroke="#333"
+        strokeWidth="4"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+    </svg>
+  ),
+  more: ({ ...props }: LucideProps) => (
+    <svg
+      width="24"
+      height="24"
+      viewBox="0 0 48 48"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+      {...props}
+    >
+      <circle cx="12" cy="24" r="3" fill="#333" />
+      <circle cx="24" cy="24" r="3" fill="#333" />
+      <circle cx="36" cy="24" r="3" fill="#333" />
+    </svg>
+  ),
 };
