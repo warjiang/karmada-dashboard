@@ -71,7 +71,7 @@ for line in $lines; do
     fi
     docker pull ${target_image}
     docker tag ${target_image} ${origin_image}
-    kind load docker-image ${origin_image} --name=${cluster} -v -1
+    kind load docker-image ${origin_image} --name=${KIND_CLUSTER_NAME} -v -1
   fi
 done
 
