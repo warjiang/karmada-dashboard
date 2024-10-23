@@ -1,0 +1,9 @@
+# hack/ops/sync-images.sh script will sync image from one registry to another.
+# and rename the image to image name as described. Each line should in the following format:
+# component-name;origin-image;target-image;
+# restrictions:
+# - `component-name` 、`origin-image` and `target-image` are required fields.
+# - each line must have four field or three semicolons.
+
+redis;redis:7.0.15-alpine;fronted-cn-beijing.cr.volces.com/container/redis:7.0.15-alpine;
+argocd;quay.io/argoproj/argocd:v2.12.3;fronted-cn-beijing.cr.volces.com/container/argoproj/argocd:v2.12.3;
