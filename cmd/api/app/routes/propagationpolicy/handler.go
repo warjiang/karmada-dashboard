@@ -58,7 +58,7 @@ func handlePostPropagationPolicy(c *gin.Context) {
 	if propagationpolicyRequest.IsClusterScope {
 		clusterpropagationPolicy := v1alpha1.ClusterPropagationPolicy{}
 		if err = yaml.Unmarshal([]byte(propagationpolicyRequest.PropagationData), &clusterpropagationPolicy); err != nil {
-			klog.ErrorS(err, "Failed to unmarshal ClusterPropagationPolicy")
+			klog.ErrorS(err, "Failed to unmarshal ClusterOverridePolicy")
 			common.Fail(c, err)
 			return
 		}
@@ -92,7 +92,7 @@ func handlePutPropagationPolicy(c *gin.Context) {
 	if propagationpolicyRequest.IsClusterScope {
 		clusterpropagationPolicy := v1alpha1.ClusterPropagationPolicy{}
 		if err = yaml.Unmarshal([]byte(propagationpolicyRequest.PropagationData), &clusterpropagationPolicy); err != nil {
-			klog.ErrorS(err, "Failed to unmarshal ClusterPropagationPolicy")
+			klog.ErrorS(err, "Failed to unmarshal ClusterOverridePolicy")
 			common.Fail(c, err)
 			return
 		}
