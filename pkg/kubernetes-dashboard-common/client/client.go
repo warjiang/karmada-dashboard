@@ -43,7 +43,7 @@ func InClusterClient() client.Interface {
 	}
 	const karmadaApiServer = "https://172.18.0.2:5443"
 	const memberName = "member1"
-	_config, err := clientcmd.BuildConfigFromFlags("", "/Users/warjiang/.kube/karmada.config")
+	_config, err := clientcmd.BuildConfigFromFlags("", "/Users/dingwenjiang/.kube/karmada.config")
 	_config.Host = fmt.Sprintf("%s/apis/cluster.karmada.io/v1alpha1/clusters/%s/proxy/", karmadaApiServer, memberName)
 	// init on-demand only
 	c, err := client.NewForConfig(_config)
@@ -65,15 +65,15 @@ func Client(request *http.Request) (client.Interface, error) {
 	// config, err := configFromRequest(request)
 	const karmadaApiServer = "https://172.18.0.2:5443"
 	const memberName = "member1"
-	_config, err := clientcmd.BuildConfigFromFlags("", "/Users/warjiang/.kube/karmada.config")
+	_config, err := clientcmd.BuildConfigFromFlags("", "/Users/dingwenjiang/.kube/karmada.config")
 	_config.Host = fmt.Sprintf("%s/apis/cluster.karmada.io/v1alpha1/clusters/%s/proxy/", karmadaApiServer, memberName)
 	if err != nil {
 		return nil, err
 	}
 
-	if args.CacheEnabled() {
-		return cacheclient.New(_config, GetBearerToken(request))
-	}
+	//if args.CacheEnabled() {
+	//	return cacheclient.New(_config, GetBearerToken(request))
+	//}
 
 	return client.NewForConfig(_config)
 }

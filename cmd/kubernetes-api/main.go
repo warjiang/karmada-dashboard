@@ -38,14 +38,14 @@ import (
 
 func main() {
 	klog.InfoS("Starting Kubernetes Dashboard API", "version", environment.Version)
-
-	client.Init(
-		client.WithUserAgent(environment.UserAgent()),
-		client.WithKubeconfig(args.KubeconfigPath()),
-		client.WithMasterUrl(args.ApiServerHost()),
-		client.WithInsecureTLSSkipVerify(args.ApiServerSkipTLSVerify()),
-	)
-
+	/*
+		client.Init(
+			client.WithUserAgent(environment.UserAgent()),
+			client.WithKubeconfig(args.KubeconfigPath()),
+			client.WithMasterUrl(args.ApiServerHost()),
+			client.WithInsecureTLSSkipVerify(args.ApiServerSkipTLSVerify()),
+		)
+	*/
 	if !args.IsProxyEnabled() {
 		ensureAPIServerConnectionOrDie()
 	} else {

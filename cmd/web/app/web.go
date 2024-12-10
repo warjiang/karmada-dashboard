@@ -4,8 +4,8 @@ import (
 	"context"
 	"fmt"
 	"github.com/gin-gonic/gin"
-	"github.com/karmada-io/dashboard/cmd/api/app/router"
 	"github.com/karmada-io/dashboard/cmd/web/app/options"
+	"github.com/karmada-io/dashboard/cmd/web/app/router"
 	"github.com/karmada-io/dashboard/pkg/config"
 	"github.com/karmada-io/dashboard/pkg/environment"
 	"github.com/karmada-io/karmada/pkg/sharedcli/klogflag"
@@ -19,6 +19,11 @@ import (
 	"os"
 	"path"
 	"strings"
+
+	// Importing route packages forces route registration
+	_ "github.com/karmada-io/dashboard/cmd/web/app/routes/config"
+	_ "github.com/karmada-io/dashboard/cmd/web/app/routes/settings"
+	_ "github.com/karmada-io/dashboard/cmd/web/app/routes/systembanner"
 )
 
 // NewWebCommand creates a *cobra.Command object with default parameters
@@ -91,6 +96,25 @@ func serve(opts *options.Options) {
 					req.URL.Scheme = remote.Scheme
 					req.URL.Host = remote.Host
 					req.URL.Path = strings.TrimPrefix(req.URL.Path, pathPrefix)
+				}
+				proxy.ServeHTTP(c.Writer, c.Request)
+			})
+		}
+		if opts.EnableMemberClusterApiProxy {
+			// /member/:clustername/api/v1/proxy/*path
+			router.MemberV1().Any("/proxy/*path", func(c *gin.Context) {
+				remote, _ := url.Parse(opts.MemberClusterApiProxyEndpoint)
+				proxy := httputil.NewSingleHostReverseProxy(remote)
+				proxy.Director = func(req *http.Request) {
+					req.Header = c.Request.Header
+					req.Host = remote.Host
+					req.URL.Scheme = remote.Scheme
+					req.URL.Host = remote.Host
+
+					originPath := req.URL.Path
+					targetKey := "/proxy"
+					idx := strings.Index(originPath, targetKey)
+					req.URL.Path = "/api/v1" + originPath[idx+len(targetKey):]
 				}
 				proxy.ServeHTTP(c.Writer, c.Request)
 			})
