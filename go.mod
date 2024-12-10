@@ -127,3 +127,12 @@ require (
 	sigs.k8s.io/kustomize/kyaml v0.14.3-0.20230601165947-6ce0bf390ce3 // indirect
 	sigs.k8s.io/structured-merge-diff/v4 v4.4.1 // indirect
 )
+
+replace (
+	k8s.io/dashboard/certificates => ./pkg/kubernetes-dashboard-common/certificates
+	k8s.io/dashboard/client => ./pkg/kubernetes-dashboard-common/client
+	k8s.io/dashboard/csrf => ./pkg/kubernetes-dashboard-common/csrf
+	k8s.io/dashboard/errors => ./pkg/kubernetes-dashboard-common/errors
+	k8s.io/dashboard/helpers => ./pkg/kubernetes-dashboard-common/helpers
+	k8s.io/dashboard/types => ./pkg/kubernetes-dashboard-common/types
+)
