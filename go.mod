@@ -14,7 +14,7 @@ require (
 	github.com/go-openapi/spec v0.21.0
 	github.com/gobuffalo/flect v1.0.3
 	github.com/golang-jwt/jwt/v4 v4.5.0
-	github.com/karmada-io/karmada v1.11.0
+	github.com/karmada-io/karmada v1.12.0
 	github.com/prometheus/client_golang v1.19.1
 	github.com/prometheus/common v0.55.0
 	github.com/samber/lo v1.47.0
@@ -23,11 +23,11 @@ require (
 	golang.org/x/net v0.29.0
 	gopkg.in/igm/sockjs-go.v2 v2.1.0
 	gopkg.in/yaml.v3 v3.0.1
-	k8s.io/api v0.31.1
-	k8s.io/apiextensions-apiserver v0.31.1
-	k8s.io/apimachinery v0.31.1
-	k8s.io/client-go v0.31.1
-	k8s.io/component-base v0.31.1
+	k8s.io/api v0.31.2
+	k8s.io/apiextensions-apiserver v0.31.2
+	k8s.io/apimachinery v0.31.2
+	k8s.io/client-go v0.31.2
+	k8s.io/component-base v0.31.2
 	k8s.io/dashboard/certificates v0.0.0-00010101000000-000000000000
 	k8s.io/dashboard/client v0.0.0-00010101000000-000000000000
 	k8s.io/dashboard/csrf v0.0.0-00010101000000-000000000000
@@ -35,7 +35,7 @@ require (
 	k8s.io/dashboard/helpers v0.0.0-00010101000000-000000000000
 	k8s.io/dashboard/types v0.0.0-00010101000000-000000000000
 	k8s.io/klog/v2 v2.130.1
-	k8s.io/kubectl v0.30.2
+	k8s.io/kubectl v0.31.2
 	sigs.k8s.io/yaml v1.4.0
 )
 
@@ -133,19 +133,19 @@ require (
 	gopkg.in/inf.v0 v0.9.1 // indirect
 	gopkg.in/yaml.v2 v2.4.0 // indirect
 	gorm.io/gorm v1.25.7 // indirect
-	k8s.io/apiserver v0.31.1 // indirect
-	k8s.io/cli-runtime v0.30.2 // indirect
-	k8s.io/kube-aggregator v0.30.2 // indirect
+	k8s.io/apiserver v0.31.2 // indirect
+	k8s.io/cli-runtime v0.31.2 // indirect
+	k8s.io/kube-aggregator v0.31.2 // indirect
 	k8s.io/kube-openapi v0.0.0-20240430033511-f0e62f92d13f // indirect
 	k8s.io/utils v0.0.0-20240711033017-18e509b52bc8 // indirect
 	modernc.org/libc v1.22.5 // indirect
 	modernc.org/mathutil v1.5.0 // indirect
 	modernc.org/memory v1.5.0 // indirect
 	modernc.org/sqlite v1.23.1 // indirect
-	sigs.k8s.io/controller-runtime v0.18.4 // indirect
+	sigs.k8s.io/controller-runtime v0.19.1 // indirect
 	sigs.k8s.io/json v0.0.0-20221116044647-bc3834ca7abd // indirect
-	sigs.k8s.io/kustomize/api v0.13.5-0.20230601165947-6ce0bf390ce3 // indirect
-	sigs.k8s.io/kustomize/kyaml v0.14.3-0.20230601165947-6ce0bf390ce3 // indirect
+	sigs.k8s.io/kustomize/api v0.17.2 // indirect
+	sigs.k8s.io/kustomize/kyaml v0.17.1 // indirect
 	sigs.k8s.io/structured-merge-diff/v4 v4.4.1 // indirect
 )
 

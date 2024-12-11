@@ -36,7 +36,7 @@ export default defineConfig(({ mode }) => {
     server: {
       proxy: {
         '^/api/v1.*': {
-          target: 'http://localhost:8000',
+          target: 'http://localhost:9000',
           changeOrigin: true,
           headers: {
             // cookie: env.VITE_COOKIES,

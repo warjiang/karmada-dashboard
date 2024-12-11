@@ -107,6 +107,7 @@ func serve(opts *options.Options) {
 				proxy := httputil.NewSingleHostReverseProxy(remote)
 				proxy.Director = func(req *http.Request) {
 					req.Header = c.Request.Header
+
 					req.Host = remote.Host
 					req.URL.Scheme = remote.Scheme
 					req.URL.Host = remote.Host
@@ -115,6 +116,26 @@ func serve(opts *options.Options) {
 					targetKey := "/proxy"
 					idx := strings.Index(originPath, targetKey)
 					req.URL.Path = "/api/v1" + originPath[idx+len(targetKey):]
+					req.Header.Set("X-Member-ClusterName", "member1")
+				}
+				proxy.ServeHTTP(c.Writer, c.Request)
+			})
+
+			router.BaseMember().Any("/proxy/*path", func(c *gin.Context) {
+				remote, _ := url.Parse(opts.MemberClusterApiProxyEndpoint)
+				proxy := httputil.NewSingleHostReverseProxy(remote)
+				proxy.Director = func(req *http.Request) {
+					req.Header = c.Request.Header
+
+					req.Host = remote.Host
+					req.URL.Scheme = remote.Scheme
+					req.URL.Host = remote.Host
+
+					originPath := req.URL.Path
+					targetKey := "/proxy"
+					idx := strings.Index(originPath, targetKey)
+					req.URL.Path = "/api" + originPath[idx+len(targetKey):]
+					req.Header.Set("X-Member-ClusterName", "member1")
 				}
 				proxy.ServeHTTP(c.Writer, c.Request)
 			})

@@ -6,9 +6,10 @@ import (
 )
 
 var (
-	router *gin.Engine
-	v1     *gin.RouterGroup
-	member *gin.RouterGroup
+	router     *gin.Engine
+	v1         *gin.RouterGroup
+	member     *gin.RouterGroup
+	baseMember *gin.RouterGroup
 )
 
 func init() {
@@ -20,6 +21,7 @@ func init() {
 	_ = router.SetTrustedProxies(nil)
 	v1 = router.Group("/api/v1")
 	member = router.Group("/member/:clustername/api/v1")
+	baseMember = router.Group("/member/:clustername/api")
 	//member.Use(EnsureMemberClusterMiddleware())
 
 	router.GET("/livez", func(c *gin.Context) {
@@ -40,4 +42,7 @@ func Router() *gin.Engine {
 
 func MemberV1() *gin.RouterGroup {
 	return member
+}
+func BaseMember() *gin.RouterGroup {
+	return baseMember
 }
