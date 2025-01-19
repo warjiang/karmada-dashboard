@@ -1,4 +1,4 @@
-import i18nInstance from '@/utils/i18n';
+import i18nInstance, { capitalize } from '@/utils/i18n';
 import { Alert, Button, Card, Collapse, Input, message } from 'antd';
 import styles from './index.module.less';
 import { cn } from '@/utils/cn.ts';
@@ -39,11 +39,21 @@ const LoginPage = () => {
                   items={[
                     {
                       key: '1',
-                      label: i18nInstance.t(
-                        '11fa53ed08b11d4753c29bbc8c8fee64',
-                        '参考文档生成jwt token',
+                      label: capitalize(
+                        i18nInstance.t(
+                          '11fa53ed08b11d4753c29bbc8c8fee64',
+                          '参考文档生成jwt token',
+                        ),
                       ),
-                      children: <code>!!todo</code>,
+                      children: (
+                        <code>
+                          {i18nInstance.t(
+                            'b1237c75c7d514d6b769a77e0af58358',
+                            '文档链接',
+                          )}
+                          ：https://github.com/karmada-io/dashboard/blob/main/README.md
+                        </code>
+                      ),
                     },
                   ]}
                 />
