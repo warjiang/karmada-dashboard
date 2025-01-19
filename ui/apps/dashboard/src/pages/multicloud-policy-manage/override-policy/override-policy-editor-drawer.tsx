@@ -2,11 +2,12 @@ import { FC, useEffect, useState } from 'react';
 import Editor from '@monaco-editor/react';
 import { Button, Drawer, Space } from 'antd';
 import { PutResource } from '@/services/unstructured';
-import { IResponse } from '@/services/base.ts';
+import { IResponse, PolicyScope } from '@/services/base.ts';
 import { parse } from 'yaml';
 import _ from 'lodash';
 import { CreateOverridePolicy } from '@/services/overridepolicy.ts';
-import i18nInstance from '@/utils/i18n.tsx';
+import i18nInstance, { titleCase } from '@/utils/i18n.tsx';
+
 export interface OverridePolicyEditorDrawerProps {
   open: boolean;
   mode: 'create' | 'edit' | 'detail';
@@ -21,12 +22,29 @@ export interface OverridePolicyEditorDrawerProps {
 function getTitle(
   mode: OverridePolicyEditorDrawerProps['mode'],
   name: string = '',
+  policyScope = PolicyScope.Namespace,
 ) {
+  // d4e6e1153ed42d2b2482f22ee04ac05a
   switch (mode) {
     case 'create':
-      return i18nInstance.t('7afddf70e5c82fab8fa935458b53174a', '新增覆盖策略');
+      return titleCase(
+        policyScope === PolicyScope.Namespace
+          ? titleCase(
+              i18nInstance.t(
+                '7afddf70e5c82fab8fa935458b53174a',
+                '新增覆盖策略',
+              ),
+            )
+          : titleCase(
+              i18nInstance.t(
+                'd4e6e1153ed42d2b2482f22ee04ac05a',
+                '新增集群差异化策略',
+              ),
+            ),
+      );
     case 'edit':
-      return i18nInstance.t('236513393327bd6b098056314f8676ac', '编辑覆盖策略');
+      // return titleCase(i18nInstance.t('236513393327bd6b098056314f8676ac', '编辑覆盖策略'));
+      return i18nInstance.t('0518f7eb54d49436d72ae539f422e68b', { name });
     case 'detail':
       return i18nInstance.t('781a90424b3d02153bc979e0f90179aa', { name });
     default:
@@ -58,7 +76,11 @@ const OverridePolicyEditorDrawer: FC<OverridePolicyEditorDrawerProps> = (
   return (
     <Drawer
       open={open}
-      title={getTitle(mode, name)}
+      title={getTitle(
+        mode,
+        name,
+        isClusterScope ? PolicyScope.Cluster : PolicyScope.Namespace,
+      )}
       width={800}
       styles={{
         body: {

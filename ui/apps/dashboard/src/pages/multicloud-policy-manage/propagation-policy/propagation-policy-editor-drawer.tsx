@@ -1,18 +1,20 @@
-import i18nInstance from '@/utils/i18n';
+import i18nInstance, { titleCase } from '@/utils/i18n';
 import { FC, useEffect, useState } from 'react';
 import Editor from '@monaco-editor/react';
 import { Button, Drawer, Space } from 'antd';
 import { CreatePropagationPolicy } from '@/services/propagationpolicy.ts';
 import { PutResource } from '@/services/unstructured';
-import { IResponse } from '@/services/base.ts';
+import { IResponse, PolicyScope } from '@/services/base.ts';
 import { parse } from 'yaml';
 import _ from 'lodash';
+
 export interface PropagationPolicyEditorDrawerProps {
   open: boolean;
   mode: 'create' | 'edit' | 'detail';
   name?: string;
   namespace?: string;
   propagationContent?: string;
+  policyScope?: PolicyScope;
   onClose: () => void;
   onUpdate: (ret: IResponse<string>) => void;
   onCreate: (ret: IResponse<string>) => void;
@@ -20,14 +22,22 @@ export interface PropagationPolicyEditorDrawerProps {
 function getTitle(
   mode: PropagationPolicyEditorDrawerProps['mode'],
   name: string = '',
+  policyScope = PolicyScope.Namespace,
 ) {
   switch (mode) {
     case 'create':
-      return i18nInstance.t('5ac6560da4f54522d590c5f8e939691b', '新增调度策略');
+      return titleCase(
+        policyScope === PolicyScope.Namespace
+          ? i18nInstance.t('5ac6560da4f54522d590c5f8e939691b', '新增调度策略')
+          : i18nInstance.t(
+              '929e0cda9f7fdc960dafe6ef742ab088',
+              '新增集群调度策略',
+            ),
+      );
     case 'edit':
       return i18nInstance.t('0518f7eb54d49436d72ae539f422e68b', { name });
     case 'detail':
-      return `${name}${i18nInstance.t('f05bc327e4066ca97af893e52e2c62b3', '策略详情')}`;
+      return `${name} ${i18nInstance.t('f05bc327e4066ca97af893e52e2c62b3', '策略详情')}`;
     default:
       return '';
   }
@@ -41,6 +51,7 @@ const PropagationPolicyEditorDrawer: FC<PropagationPolicyEditorDrawerProps> = (
     name,
     namespace,
     propagationContent,
+    policyScope = PolicyScope.Namespace,
     onClose,
     onCreate,
     onUpdate,
@@ -55,7 +66,7 @@ const PropagationPolicyEditorDrawer: FC<PropagationPolicyEditorDrawerProps> = (
   return (
     <Drawer
       open={open}
-      title={getTitle(mode, name)}
+      title={getTitle(mode, name, policyScope)}
       width={800}
       styles={{
         body: {

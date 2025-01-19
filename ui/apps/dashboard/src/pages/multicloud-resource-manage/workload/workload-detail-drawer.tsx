@@ -137,15 +137,27 @@ const WorkloadDetailDrawer: FC<WorkloadDetailDrawerProps> = (props) => {
           />
 
           <Statistic
+            className={styles['no-value']}
             title={titleCase(
               i18nInstance.t('eca37cb0726c51702f70c486c1c38cf3', '创建时间'),
             )}
-            value={
-              detailData?.objectMeta?.creationTimestamp
-                ? dayjs(detailData?.objectMeta?.creationTimestamp).format(
-                    'YYYY-MM-DD',
-                  )
-                : '-'
+            prefix={
+              <Typography.Text
+                ellipsis={{
+                  tooltip: detailData?.objectMeta?.creationTimestamp
+                    ? dayjs(detailData?.objectMeta?.creationTimestamp).format(
+                        'YYYY-MM-DD',
+                      )
+                    : '-',
+                }}
+                className={'w-[120px]'}
+              >
+                {detailData?.objectMeta?.creationTimestamp
+                  ? dayjs(detailData?.objectMeta?.creationTimestamp).format(
+                      'YYYY-MM-DD',
+                    )
+                  : '-'}
+              </Typography.Text>
             }
           />
 
