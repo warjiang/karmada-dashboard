@@ -1,4 +1,4 @@
-import i18nInstance from '@/utils/i18n';
+import i18nInstance, { titleCase } from '@/utils/i18n';
 import { FC, useEffect, useMemo, useState } from 'react';
 import { Form, Modal, Select } from 'antd';
 import Editor from '@monaco-editor/react';
@@ -26,11 +26,17 @@ const NewConfigEditorModal: FC<NewWorkloadEditorModalProps> = (props) => {
   const title = useMemo(() => {
     switch (mode) {
       case 'read':
-        return i18nInstance.t('b2af3f316129c869a96f9099262df175', '查看配置');
+        return titleCase(
+          i18nInstance.t('b2af3f316129c869a96f9099262df175', '查看配置'),
+        );
       case 'edit':
-        return i18nInstance.t('5117bc6c603b6ceb9ee5197e30432266', '编辑配置');
+        return titleCase(
+          i18nInstance.t('5117bc6c603b6ceb9ee5197e30432266', '编辑配置'),
+        );
       case 'create':
-        return i18nInstance.t('80e2ca37eabd710ead8581de48a54fed', '新增配置');
+        return titleCase(
+          i18nInstance.t('80e2ca37eabd710ead8581de48a54fed', '新增配置'),
+        );
     }
   }, [mode]);
   return (

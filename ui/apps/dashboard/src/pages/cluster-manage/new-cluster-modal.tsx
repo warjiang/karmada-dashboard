@@ -1,4 +1,4 @@
-import i18nInstance from '@/utils/i18n';
+import i18nInstance, { titleCase } from '@/utils/i18n';
 import { FC, useEffect, useState } from 'react';
 import { Modal, Form, Input, Radio, Button, Select, Divider } from 'antd';
 import TextareaWithUpload from '@/components/textarea-with-upload';
@@ -79,8 +79,12 @@ const NewClusterModal: FC<NewClusterModalProps> = (props) => {
       open={open}
       title={
         mode === 'create'
-          ? i18nInstance.t('4cd980b26c5c76cdd4a5c5e44064d6da', '新增集群')
-          : i18nInstance.t('8d3d771ab6d38cf457a832763a5203a0', '编辑集群')
+          ? titleCase(
+              i18nInstance.t('4cd980b26c5c76cdd4a5c5e44064d6da', '新增集群'),
+            )
+          : titleCase(
+              i18nInstance.t('8d3d771ab6d38cf457a832763a5203a0', '编辑集群'),
+            )
       }
       width={800}
       okText={i18nInstance.t('38cf16f2204ffab8a6e0187070558721', '确定')}
@@ -120,6 +124,7 @@ const NewClusterModal: FC<NewClusterModalProps> = (props) => {
       <Form
         form={form}
         className={mode === 'create' ? 'min-h-[500px]' : 'min-h-[200px]'}
+        labelAlign={'left'}
         validateMessages={{
           required: i18nInstance.t(
             'e0a23c19b8a0044c5defd167b441d643',

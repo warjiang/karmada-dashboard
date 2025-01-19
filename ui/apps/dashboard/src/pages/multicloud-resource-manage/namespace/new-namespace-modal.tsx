@@ -1,4 +1,4 @@
-import i18nInstance from '@/utils/i18n';
+import i18nInstance, { titleCase } from '@/utils/i18n';
 import { FC } from 'react';
 import { Modal, Form, Radio, Input } from 'antd';
 import { CreateNamespace } from '@/services/namespace.ts';
@@ -19,7 +19,9 @@ const NewNamespaceModal: FC<NewNamespaceModalProps> = (props) => {
   return (
     <Modal
       open={open}
-      title={i18nInstance.t('ac2f01145a5c4a9aaaf2f828650d91a3', '新增命名空间')}
+      title={titleCase(
+        i18nInstance.t('ac2f01145a5c4a9aaaf2f828650d91a3', '新增命名空间'),
+      )}
       width={600}
       okText={i18nInstance.t('38cf16f2204ffab8a6e0187070558721', '确定')}
       cancelText={i18nInstance.t('625fb26b4b3340f7872b411f401e754c', '取消')}
@@ -69,7 +71,7 @@ const NewNamespaceModal: FC<NewNamespaceModalProps> = (props) => {
         </Form.Item>
         <Form.Item
           label={i18nInstance.t(
-            'd41f6609ddbfa15fb95074a463f3b71a',
+            '1d5fc011c19d35d08186afc4bad14be9',
             '是否跳过自动分发',
           )}
           name="skipAutoPropagation"

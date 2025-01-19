@@ -1,4 +1,4 @@
-import i18nInstance from '@/utils/i18n';
+import i18nInstance, { titleCase } from '@/utils/i18n';
 import { FC, useEffect, useState } from 'react';
 import { Form, Modal, Select } from 'antd';
 import Editor from '@monaco-editor/react';
@@ -29,8 +29,18 @@ const NewWorkloadEditorModal: FC<NewWorkloadEditorModalProps> = (props) => {
     <Modal
       title={
         mode === 'create'
-          ? i18nInstance.t('96d6b0fcc58b6f65dc4c00c6138d2ac0', '新增工作负载')
-          : i18nInstance.t('634a943c97e905149acb81cef5bda28e', '编辑工作负载')
+          ? titleCase(
+              i18nInstance.t(
+                '96d6b0fcc58b6f65dc4c00c6138d2ac0',
+                '新增工作负载',
+              ),
+            )
+          : titleCase(
+              i18nInstance.t(
+                '634a943c97e905149acb81cef5bda28e',
+                '编辑工作负载',
+              ),
+            )
       }
       open={open}
       width={1000}
@@ -74,9 +84,8 @@ const NewWorkloadEditorModal: FC<NewWorkloadEditorModalProps> = (props) => {
       }}
     >
       <Form.Item
-        label={i18nInstance.t(
-          '0a3e7cdadc44fb133265152268761abc',
-          '工作负载类型',
+        label={titleCase(
+          i18nInstance.t('0a3e7cdadc44fb133265152268761abc', '工作负载类型'),
         )}
       >
         <Select

@@ -1,4 +1,4 @@
-import i18nInstance from '@/utils/i18n';
+import i18nInstance, { titleCase } from '@/utils/i18n';
 import { FC, useEffect, useState } from 'react';
 import { Form, Modal, Select } from 'antd';
 import Editor from '@monaco-editor/react';
@@ -28,10 +28,16 @@ const ServiceEditorModal: FC<NewWorkloadEditorModalProps> = (props) => {
     <Modal
       title={
         mode === 'create'
-          ? i18nInstance.t('c7961c290ec86485d8692f3c09b4075b', '新增服务')
+          ? titleCase(
+              i18nInstance.t('c7961c290ec86485d8692f3c09b4075b', '新增服务'),
+            )
           : mode === 'edit'
-            ? i18nInstance.t('cc51f34aa418cb3a596fd6470c677bfe', '编辑服务')
-            : i18nInstance.t('ad23e7bbdbe6ed03eebfc27eef7570fa', '查看服务')
+            ? titleCase(
+                i18nInstance.t('cc51f34aa418cb3a596fd6470c677bfe', '编辑服务'),
+              )
+            : titleCase(
+                i18nInstance.t('ad23e7bbdbe6ed03eebfc27eef7570fa', '查看服务'),
+              )
       }
       open={open}
       width={1000}
@@ -75,7 +81,9 @@ const ServiceEditorModal: FC<NewWorkloadEditorModalProps> = (props) => {
       }}
     >
       <Form.Item
-        label={i18nInstance.t('924f67de61fc9e07fff979306900dc6a', '服务类型')}
+        label={titleCase(
+          i18nInstance.t('924f67de61fc9e07fff979306900dc6a', '服务类型'),
+        )}
       >
         <Select
           value={kind}
