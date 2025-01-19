@@ -1,4 +1,4 @@
-import i18nInstance from '@/utils/i18n';
+import i18nInstance, { titleCase } from '@/utils/i18n';
 import { Button, Input, Segmented, Select } from 'antd';
 import { Icons } from '@/components/icons';
 import { FC } from 'react';
@@ -59,8 +59,12 @@ const QueryFilter: FC<QueryFilterProps> = (props) => {
           onClick={onNewConfig}
         >
           {filter.kind === ConfigKind.ConfigMap
-            ? i18nInstance.t('80e2ca37eabd710ead8581de48a54fed', '新增配置')
-            : i18nInstance.t('12f9985489b76f8cd0775f5757b293d4', '新增秘钥')}
+            ? titleCase(
+                i18nInstance.t('80e2ca37eabd710ead8581de48a54fed', '新增配置'),
+              )
+            : titleCase(
+                i18nInstance.t('12f9985489b76f8cd0775f5757b293d4', '新增秘钥'),
+              )}
         </Button>
       </div>
       <div className={'flex flex-row space-x-4 mb-4'}>

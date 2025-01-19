@@ -156,7 +156,9 @@ const NamespacePage = () => {
             toggleShowModal(true);
           }}
         >
-          {i18nInstance.t('ac2f01145a5c4a9aaaf2f828650d91a3', '新增命名空间')}
+          {titleCase(
+            i18nInstance.t('ac2f01145a5c4a9aaaf2f828650d91a3', '新增命名空间'),
+          )}
         </Button>
       </div>
       <Table

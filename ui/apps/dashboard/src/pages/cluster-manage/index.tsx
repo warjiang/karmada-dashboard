@@ -117,7 +117,7 @@ const ClusterManagePage = () => {
     },
     {
       title: titleCase(
-        i18nInstance.t('f0789e79d48f135e5d870753f7a85d05', '模式'),
+        i18nInstance.t('e8d733d77271dd37b33820f5eafeb2c2', '接入模式'),
       ),
       dataIndex: 'syncMode',
       width: 150,
@@ -273,7 +273,9 @@ const ClusterManagePage = () => {
             });
           }}
         >
-          {i18nInstance.t('4cd980b26c5c76cdd4a5c5e44064d6da', '新增集群')}
+          {titleCase(
+            i18nInstance.t('4cd980b26c5c76cdd4a5c5e44064d6da', '新增集群'),
+          )}
         </Button>
       </div>
       <Table

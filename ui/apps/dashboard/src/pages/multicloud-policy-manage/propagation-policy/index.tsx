@@ -338,13 +338,17 @@ const PropagationPolicyManage = () => {
             }}
           >
             {filter.policyScope === PolicyScope.Namespace
-              ? i18nInstance.t(
-                  '5ac6560da4f54522d590c5f8e939691b',
-                  '新增调度策略',
+              ? titleCase(
+                  i18nInstance.t(
+                    '5ac6560da4f54522d590c5f8e939691b',
+                    '新增调度策略',
+                  ),
                 )
-              : i18nInstance.t(
-                  '929e0cda9f7fdc960dafe6ef742ab088',
-                  '新增集群调度策略',
+              : titleCase(
+                  i18nInstance.t(
+                    '929e0cda9f7fdc960dafe6ef742ab088',
+                    '新增集群调度策略',
+                  ),
                 )}
           </Button>
         </div>
@@ -362,6 +366,7 @@ const PropagationPolicyManage = () => {
         name={editorDrawerData.name}
         namespace={editorDrawerData.namespace}
         mode={editorDrawerData.mode}
+        policyScope={filter.policyScope}
         propagationContent={editorDrawerData.propagationContent}
         onClose={() => {
           setEditorDrawerData({

@@ -203,7 +203,7 @@ const OverridePolicyManage = () => {
             </Button>
             <Popconfirm
               placement="topRight"
-              title={i18nInstance.t('1af8d577b89a4caf0e4b30734bbf7143', {
+              title={i18nInstance.t('b13c676134d8ab066d62e9ea5bdf796c', {
                 name: r.objectMeta.name,
               })}
               onConfirm={async () => {
@@ -341,13 +341,17 @@ const OverridePolicyManage = () => {
             }}
           >
             {filter.policyScope === 'namespace-scope'
-              ? i18nInstance.t(
-                  '7c7e4becc6e9b2be2a196ed506cdc518',
-                  '新增差异化策略',
+              ? titleCase(
+                  i18nInstance.t(
+                    '7c7e4becc6e9b2be2a196ed506cdc518',
+                    '新增差异化策略',
+                  ),
                 )
-              : i18nInstance.t(
-                  'd4e6e1153ed42d2b2482f22ee04ac05a',
-                  '新增集群差异化策略',
+              : titleCase(
+                  i18nInstance.t(
+                    'd4e6e1153ed42d2b2482f22ee04ac05a',
+                    '新增集群差异化策略',
+                  ),
                 )}
           </Button>
         </div>

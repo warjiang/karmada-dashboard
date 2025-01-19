@@ -267,7 +267,9 @@ const WorkloadPage = () => {
             toggleShowModal(true);
           }}
         >
-          {i18nInstance.t('96d6b0fcc58b6f65dc4c00c6138d2ac0', '新增工作负载')}
+          {titleCase(
+            i18nInstance.t('96d6b0fcc58b6f65dc4c00c6138d2ac0', '新增工作负载'),
+          )}
         </Button>
       </div>
       <div className={'flex flex-row space-x-4 mb-4'}>

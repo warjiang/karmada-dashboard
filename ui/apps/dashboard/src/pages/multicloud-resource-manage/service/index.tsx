@@ -1,4 +1,4 @@
-import i18nInstance from '@/utils/i18n';
+import i18nInstance, { titleCase } from '@/utils/i18n';
 import Panel from '@/components/panel';
 import { Button, Input, Segmented, Select } from 'antd';
 import { ServiceKind } from '@/services/base';
@@ -10,6 +10,7 @@ import ServiceEditorModal from './components/service-editor-modal';
 import { stringify } from 'yaml';
 import IngressTable from '@/pages/multicloud-resource-manage/service/components/ingress-table';
 import useNamespace from '@/hooks/use-namespace.ts';
+
 const ServicePage = () => {
   const [filter, setFilter] = useState<{
     selectedWorkSpace: string;
@@ -82,7 +83,16 @@ const ServicePage = () => {
             toggleShowModal(true);
           }}
         >
-          {i18nInstance.t('c7961c290ec86485d8692f3c09b4075b', '新增服务')}
+          {filter.kind === ServiceKind.Service
+            ? titleCase(
+                i18nInstance.t('c7961c290ec86485d8692f3c09b4075b', '新增服务'),
+              )
+            : titleCase(
+                i18nInstance.t(
+                  '4d147b4c3d495ab407a5e68cb7048d64',
+                  '新增ingress',
+                ),
+              )}
         </Button>
       </div>
       <div className={'flex flex-row space-x-4 mb-4'}>
