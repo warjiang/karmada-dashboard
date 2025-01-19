@@ -228,7 +228,7 @@ const Overview = () => {
           bordered
           items={resourceItems}
           labelStyle={{
-            width: i18nInstance.language === 'en-US' ? '300px' : '150px',
+            width: i18nInstance.language === 'en-US' ? '200px' : '150px',
           }}
         />
       </Panel>
