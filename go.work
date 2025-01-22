@@ -1,0 +1,7 @@
+go 1.22.10
+
+use (
+    ./cmd/api
+    ./cmd/web
+    ./cmd/metrics-scraper
+)
