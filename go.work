@@ -1,7 +1,16 @@
-go 1.22.10
+go 1.23.0
+
+toolchain go1.23.4
 
 use (
-    ./cmd/api
-    ./cmd/web
-    ./cmd/metrics-scraper
+	./cmd/api
+	./cmd/kubernetes-dashboard-api
+	./cmd/metrics-scraper
+	./cmd/web
+	./pkg/kubernetes-dashboard-common/certificates
+	./pkg/kubernetes-dashboard-common/client
+	./pkg/kubernetes-dashboard-common/csrf
+	./pkg/kubernetes-dashboard-common/errors
+	./pkg/kubernetes-dashboard-common/helpers
+	./pkg/kubernetes-dashboard-common/types
 )
