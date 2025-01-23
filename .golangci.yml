@@ -102,6 +102,8 @@ issues:
     - (^|/)vendor($|/)
     - (^|/)third_party($|/)
     - pkg/util/lifted # This code is lifted from other projects(Kubernetes, Kubefed, and so on), skip checking.
+    - kubernetes-dashboard-api # This code is lifted from kubernetes dashboard
+    - pkg/kubernetes-dashboard-common
   # Enables exclude of directories:
   # - vendor$, third_party$, testdata$, examples$, Godeps$, builtin$
   # Default: true
