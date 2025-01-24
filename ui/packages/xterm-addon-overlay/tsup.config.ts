@@ -15,12 +15,29 @@ limitations under the License.
 */
 
 import { defineConfig } from 'tsup';
+import * as path from 'path';
+import * as fs from 'fs';
 
+const currentDir = path.dirname(__filename);
+const workspaceRootDir = path.resolve(currentDir, '../../../');
+const licenseTplPath = path.join(
+  workspaceRootDir,
+  './hack/karmada-license.tpl',
+);
+const tplContent = fs.readFileSync(licenseTplPath).toString();
+const currentYear = new Date().getFullYear();
+
+const license = tplContent.replace(/\{\{year\}\}/g, currentYear.toString());
 export default defineConfig({
   entry: ['src/index.ts'],
   splitting: false,
   sourcemap: true,
   clean: true,
   format: ['cjs', 'esm'],
-  dts: true,
+  dts: {
+    banner: license,
+  },
+  banner: {
+    js: license,
+  },
 });

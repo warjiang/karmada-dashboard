@@ -18,7 +18,9 @@ import { defineConfig, loadEnv, Plugin } from 'vite';
 import react from '@vitejs/plugin-react';
 import svgr from 'vite-plugin-svgr';
 import path from 'path';
+import fs from 'fs';
 import { dynamicBase } from 'vite-plugin-dynamic-base';
+import banner from 'vite-plugin-banner';
 
 const replacePathPrefixPlugin = (): Plugin => {
   return {
@@ -34,10 +36,23 @@ const replacePathPrefixPlugin = (): Plugin => {
 
 // https://vitejs.dev/config/
 export default defineConfig(({ mode }) => {
+  // read and render license template
+  const currentDir = path.dirname(__filename);
+  const workspaceRootDir = path.resolve(currentDir, '../../../');
+  const licenseTplPath = path.join(
+    workspaceRootDir,
+    './hack/karmada-license.tpl',
+  );
+  const tplContent = fs.readFileSync(licenseTplPath).toString();
+  const currentYear = new Date().getFullYear();
+
+  const license = tplContent.replace(/\{\{year\}\}/g, currentYear.toString());
+
   const env = loadEnv(mode, process.cwd(), '');
   return {
     base: process.env.NODE_ENV === 'development' ? '' : '/static',
     plugins: [
+      banner(license) as Plugin,
       react(),
       svgr(),
       replacePathPrefixPlugin(),
