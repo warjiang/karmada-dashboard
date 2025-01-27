@@ -5,6 +5,9 @@ on:
     branches:
       - main
       - feature/*
+  release:
+    types:
+      - published
 
 jobs:
   build-fronted:
