@@ -33,7 +33,6 @@ jobs:
           name: dashboard_artifact
 
   build-and-push-web:
-    if: ${{ github.repository == 'karmada-io/dashboard' }}
     runs-on: ubuntu-22.04
     needs: [ "build-fronted" ]
     env:
@@ -87,7 +86,6 @@ jobs:
 
 
   build-and-push-api:
-    if: ${{ github.repository == 'karmada-io/dashboard' }}
     runs-on: ubuntu-22.04
     env:
       IMAGE_NAME: karmada/karmada-dashboard-api
