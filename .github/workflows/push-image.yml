@@ -36,7 +36,7 @@ jobs:
     runs-on: ubuntu-22.04
     needs: [ "build-fronted" ]
     env:
-      IMAGE_NAME: karmada/karmada-dashboard-web
+      IMAGE_NAME: warjiang/karmada-dashboard-web
       BINARY_NAME: karmada-dashboard-web
     steps:
       - name: Checkout
@@ -88,7 +88,7 @@ jobs:
   build-and-push-api:
     runs-on: ubuntu-22.04
     env:
-      IMAGE_NAME: karmada/karmada-dashboard-api
+      IMAGE_NAME: warjiang/karmada-dashboard-api
       BINARY_NAME: karmada-dashboard-api
     steps:
       - name: Checkout
