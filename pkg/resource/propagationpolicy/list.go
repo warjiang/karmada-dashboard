@@ -25,9 +25,6 @@ import (
 
 	"github.com/karmada-io/karmada/pkg/apis/policy/v1alpha1"
 	karmadaclientset "github.com/karmada-io/karmada/pkg/generated/clientset/versioned"
-	"github.com/samber/lo"
-	appsv1 "k8s.io/api/apps/v1"
-	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/client-go/kubernetes"
 
 	"github.com/karmada-io/dashboard/pkg/common/errors"
@@ -53,9 +50,9 @@ type PropagationPolicy struct {
 	ObjectMeta types.ObjectMeta `json:"objectMeta"`
 	TypeMeta   types.TypeMeta   `json:"typeMeta"`
 	// propagation specificed data
-	SchedulerName   string                    `json:"schedulerName"`
-	ClusterAffinity *v1alpha1.ClusterAffinity `json:"clusterAffinity"`
-	Deployments     []string                  `json:"deployments"`
+	SchedulerName    string                    `json:"schedulerName"`
+	ClusterAffinity  *v1alpha1.ClusterAffinity `json:"clusterAffinity"`
+	RelatedResources []string                  `json:"relatedResources"`
 }
 
 // GetPropagationPolicyList returns a list of all propagations in the karmada control-plance.
@@ -85,6 +82,7 @@ func toPropagationPolicyList(k8sClient kubernetes.Interface, propagationpolicies
 		panic(err)
 	}
 	for _, propagationpolicy := range propagationpolicies {
+		relatedResources := make([]string, 0)
 		for _, rs := range propagationpolicy.Spec.ResourceSelectors {
 			getRes, getErr := verberClient.Get(strings.ToLower(rs.Kind), rs.Namespace, rs.Name)
 			if getErr != nil {
@@ -93,25 +91,21 @@ func toPropagationPolicyList(k8sClient kubernetes.Interface, propagationpolicies
 			if errors.IsNotFound(err) || getRes == nil {
 				continue
 			}
-
-			//unstructuredObj := &unstructured.Unstructured{}
-			//err = unstructured.SetNestedField(unstructuredObj.Object, getRes.GetName(), "metadata", "name")
-			//if err != nil {
-			//	log.Fatalf("Error setting nested field: %s", err.Error())
-			//}
+			relatedResources = append(relatedResources, fmt.Sprintf("%s/%s", rs.Namespace, rs.Name))
 		}
 
 		// propagationpolicy.karmada.io/name=nginx-propagation,propagationpolicy.karmada.io/namespace=default
-		deployments, err := k8sClient.AppsV1().Deployments("").List(context.TODO(), metav1.ListOptions{
-			LabelSelector: fmt.Sprintf("propagationpolicy.karmada.io/name=%s,propagationpolicy.karmada.io/namespace=%s",
-				propagationpolicy.Name, propagationpolicy.Namespace),
-		})
+		//deployments, err := k8sClient.AppsV1().Deployments("").List(context.TODO(), metav1.ListOptions{
+		//	LabelSelector: fmt.Sprintf("propagationpolicy.karmada.io/name=%s,propagationpolicy.karmada.io/namespace=%s",
+		//		propagationpolicy.Name, propagationpolicy.Namespace),
+		//})
 		pp := toPropagationPolicy(&propagationpolicy)
-		if err == nil {
-			pp.Deployments = lo.Map(deployments.Items, func(item appsv1.Deployment, _ int) string {
-				return fmt.Sprintf("%s/%s", item.Namespace, item.Name)
-			})
-		}
+		pp.RelatedResources = relatedResources
+		//if err == nil {
+		//	pp.Deployments = lo.Map(deployments.Items, func(item appsv1.Deployment, index int) string {
+		//		return fmt.Sprintf("%s/%s", item.Namespace, item.Name)
+		//	})
+		//}
 		propagationpolicyList.PropagationPolicys = append(propagationpolicyList.PropagationPolicys, pp)
 	}
 	return propagationpolicyList
