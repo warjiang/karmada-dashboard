@@ -354,7 +354,9 @@ const PropagationPolicyManage = () => {
       </div>
 
       <Table
-        rowKey={(r: PropagationPolicy) => r.objectMeta.name || ''}
+        rowKey={(r: PropagationPolicy) =>
+          `${r.objectMeta.namespace}-${r.objectMeta.name}` || ''
+        }
         columns={columns}
         loading={isLoading}
         dataSource={data || []}
