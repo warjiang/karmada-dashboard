@@ -19,7 +19,9 @@ package propagationpolicy
 import (
 	"context"
 	"fmt"
+	"github.com/karmada-io/dashboard/pkg/client"
 	"log"
+	"strings"
 
 	"github.com/karmada-io/karmada/pkg/apis/policy/v1alpha1"
 	karmadaclientset "github.com/karmada-io/karmada/pkg/generated/clientset/versioned"
@@ -78,7 +80,27 @@ func toPropagationPolicyList(k8sClient kubernetes.Interface, propagationpolicies
 	propagationpolicyList.ListMeta = types.ListMeta{TotalItems: filteredTotal}
 	propagationpolicyList.Errors = nonCriticalErrors
 
+	verberClient, err := client.VerberClient(nil)
+	if err != nil {
+		panic(err)
+	}
 	for _, propagationpolicy := range propagationpolicies {
+		for _, rs := range propagationpolicy.Spec.ResourceSelectors {
+			getRes, getErr := verberClient.Get(strings.ToLower(rs.Kind), rs.Namespace, rs.Name)
+			if getErr != nil {
+				continue
+			}
+			if errors.IsNotFound(err) || getRes == nil {
+				continue
+			}
+
+			//unstructuredObj := &unstructured.Unstructured{}
+			//err = unstructured.SetNestedField(unstructuredObj.Object, getRes.GetName(), "metadata", "name")
+			//if err != nil {
+			//	log.Fatalf("Error setting nested field: %s", err.Error())
+			//}
+		}
+
 		// propagationpolicy.karmada.io/name=nginx-propagation,propagationpolicy.karmada.io/namespace=default
 		deployments, err := k8sClient.AppsV1().Deployments("").List(context.TODO(), metav1.ListOptions{
 			LabelSelector: fmt.Sprintf("propagationpolicy.karmada.io/name=%s,propagationpolicy.karmada.io/namespace=%s",
