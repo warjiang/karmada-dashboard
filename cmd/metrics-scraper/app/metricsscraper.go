@@ -71,7 +71,7 @@ func NewMetricsScraperCommand(ctx context.Context) *cobra.Command {
 }
 
 func run(ctx context.Context, opts *options.Options) error {
-	klog.InfoS("Starting Karmada Dashboard API", "version", environment.Version)
+	klog.InfoS("Starting Karmada Metrics Scraper", "version", environment.Version)
 
 	client.InitKarmadaConfig(
 		client.WithUserAgent(environment.UserAgent()),
