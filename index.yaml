@@ -3,6 +3,21 @@ entries:
   karmada-dashboard:
   - apiVersion: v2
     appVersion: 1.16.0
+    created: "2025-02-18T16:51:36.178161907Z"
+    dependencies:
+    - name: common
+      repository: https://charts.bitnami.com/bitnami
+      version: 2.x.x
+    description: A Helm chart for Kubernetes
+    digest: de1e980b9b5e966a32ce31ed0d1d32bef175fc3fccad186dd2f20b1497dc435f
+    kubeVersion: '>= 1.16.0-0'
+    name: karmada-dashboard
+    type: application
+    urls:
+    - https://github.com/warjiang/karmada-dashboard/releases/download/karmada-dashboard-0.1.2/karmada-dashboard-0.1.2.tgz
+    version: 0.1.2
+  - apiVersion: v2
+    appVersion: 1.16.0
     created: "2025-02-18T16:30:31.530392391Z"
     dependencies:
     - name: common
@@ -16,4 +31,4 @@ entries:
     urls:
     - https://github.com/warjiang/karmada-dashboard/releases/download/karmada-dashboard-0.1.1/karmada-dashboard-0.1.1.tgz
     version: 0.1.1
-generated: "2025-02-18T16:30:31.530424611Z"
+generated: "2025-02-18T16:51:36.1781956Z"
