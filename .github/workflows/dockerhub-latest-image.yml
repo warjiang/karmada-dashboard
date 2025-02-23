@@ -116,3 +116,4 @@ jobs:
           build-args: |
             BINARY=${{ steps.misc.outputs.binary_name }}
             BUILD_PLATFORMS=${{ steps.misc.outputs.os }}/${{ steps.misc.outputs.arch }}
+
