@@ -140,6 +140,15 @@ endif
 	@kubectl -n karmada-system get secret/karmada-dashboard-secret -o go-template="{{.data.token | base64decode}}"
 	@echo
 
+# Helm chart
+.PHONY: package-chart
+package-chart:
+	hack/package-helm-chart.sh $(VERSION)
+
+.PHONY: push-chart
+push-chart:
+	helm push _output/charts/karmada-dashboard-${VERSION}.tgz oci://docker.io/karmada
+
 ###################
 # Help            #
 ###################
